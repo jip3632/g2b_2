@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+/* MOVE_TOP_BTN */
+button#MOVE_TOP_BTN {
+    position: fixed;
+    right: 50%;
+    bottom: 50px;
+    display: none;
+    z-index: 999;
+}
+
+/* loading box icon rotating*/
+.infinite_rotating_logo{
+    animation: rotate_image 1s linear infinite;
+    transform-origin: 50% 50%;
+}
+ 
+@keyframes rotate_image{
+	100% {
+    	transform: rotate(360deg);
+    }
+}
+
+/* row selected */
+td.selected a{
+	color: #eb4034;
+}
+

@@ -1,0 +1,123 @@
+@charset "UTF-8";
+/*
+ body
+*/
+body {
+	font-size: 11pt;
+}
+.container {
+	background-color: #f4f8fd;
+}
+
+/* openDtl page */
+div.opengInfo {
+	width: 960px;
+}
+/*
+ navbar css	
+*/
+.navbar {
+	background-color: #ccdef6;
+	padding:0 1rem;
+	font-size:15px;
+	height: 50px;
+	margin-bottom: 20px;
+	min-width: 930px;
+}
+
+.navbar-nav {
+	margin: 0;
+}
+
+.navbar-nav .nav-link{
+	color: rgb(0, 0, 0, 0.7);
+}
+
+.navbar-nav .main {
+	color: rgb(0, 0, 0);
+	font-size:1.1em;
+}
+
+.navbar-brand .nav-link:hover{
+	background-color: #589dda;
+	color: white;
+	font-weight: bold;	
+}
+
+.navbar-nav .nav-link:hover{
+	background-color: #589dda;
+	color: white;
+	font-weight: bold;
+}
+
+/*
+ search form
+*/
+.form-row {
+	min-width: 930px;
+	padding-left:50px;
+}
+
+.btn-primary {
+	background-color: #589dda;
+	border-color: #589dda; 
+}
+
+/*
+ table css
+*/
+table {
+	min-width: 930px;
+}
+
+th {
+	background-color: #ccdef6;
+}
+
+td {
+	background-color: #f4f8fd;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #ebebeb;
+}
+
+table.resultTable {
+	border-top: #589dda solid 2px;
+	border-bottom: #589dda solid 2px;
+}
+
+table.resultTable tr:hover td {
+	background-color: #f5e9db; 
+}
+
+table.resultTable th,table.resultTable td {
+	padding-left: 4px;
+	padding-right: 4px;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid white;
+}
+
+table.first-row-danger tbody tr:first-child {
+	color: red;
+}
+
+/*
+	loading box
+*/
+/*
+div#loadingBox {
+	background-color: rgb(0, 0, 0, 0.5);
+}
+*/
+div.loadingBox {
+	height : 50px;
+	border: #ccdef6 2px solid;
+	background-color:#f4f8fd;
+	padding-top: 7px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
