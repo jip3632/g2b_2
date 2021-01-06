@@ -40,6 +40,11 @@ $(document).on('change', '.selector', function(e){	// selector 변경 listener
 	makeTableByOptions(itemList, type, org);
 });
 
+$(document).on('click', '.orderSelector li', function(e){	// orderSelector 클릭 listener
+	$('.orderSelector li').toggleClass('selected');
+	$('#orderSelector').val($('.orderSelector .selected').attr('data-value')).trigger('change');
+});
+
 $(document).on('click', '#search', function() {		// 조회 버튼 클릭 listener
 	getData();
 });
@@ -253,16 +258,22 @@ function makeTable(itemList) {
 	let html = '';
 	if (itemList.length != 0) {
 		for(let item of itemList){
-			html += '<tr>';
-			html += '<td>' + item.untyCntrctNo + '</td>';
-			html += '<td><a class="detailUrl" href=' + item.cntrctDtlInfoUrl + ' target=\'_blank\'>' + item.cntrctNm + '</td>';
-			html += '<td>' + numberWithCommas(item.thtmCntrctAmt) + '</td>';
-			html += '<td>' + item.cntrctInsttNm + '</td>';
-			html += '<td>' + item.cntrctCnclsDate + '</td>';
-			html += '</tr>';
+			html += '<li>';
+			html += '<div class="titleArea">';
+			html += '<label>통합계약번호</label><span class="no">' + item.untyCntrctNo + '</span>';
+			html += '<h3 class="title"><a class="detailUrl" href=' + item.cntrctDtlInfoUrl + ' target=\'_blank\'>' + item.cntrctNm + '</a></h3>';
+			html += '</div>';
+			html += '<div class="infoArea">';
+			html += '<ul>';
+			html += '<li class="thtmCntrctAmt"><label>계약금액</label>￦' + numberWithCommas(item.thtmCntrctAmt) + '</li>';
+			html += '<li class="dminsttNm"><label>수요기관</label>' + item.cntrctInsttNm + '</li>';
+			html += '<li class="cntrctCnclsDate"><label>계약일자</label>' + item.cntrctCnclsDate + '</li>';
+			html += '</ul>';
+			html += '</div>';
+			html += '</li>';	
 		}
 	} else {
-		html += '<tr><th colspan="5"> 데이터가 존재하지 않습니다. </th></tr>';
+		html += '<li class="message">데이터가 존재하지 않습니다. </li>';
 	}
 	table.html(html);
 	

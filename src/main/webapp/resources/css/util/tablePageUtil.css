@@ -5,6 +5,7 @@ button#MOVE_TOP_BTN {
     position: fixed;
     right: 50%;
     bottom: 50px;
+    margin-right: -13px;
     display: none;
     z-index: 999;
 }

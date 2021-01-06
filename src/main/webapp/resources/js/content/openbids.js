@@ -41,6 +41,11 @@ $(document).on('change', '.selector', function(e){		// selector 변경시 테이
 	makeTableByOptions(itemList, type, org);
 });
 
+$(document).on('click', '.orderSelector li', function(e){	// orderSelector 클릭 listener
+	$('.orderSelector li').toggleClass('selected');
+	$('#orderSelector').val($('.orderSelector .selected').attr('data-value')).trigger('change');
+});
+
 $(document).on('click', '#search', function() {			// 조회 버튼 클릭시 테이블 변경 listener
 	getData();
 });
@@ -258,6 +263,9 @@ function makeTable(itemList) {
 	let html = '';
 	
 	if (itemList.length != 0) {
+		
+		
+		
 		for(let item of itemList){
 			let openCorpInfo = [];
 			
@@ -265,37 +273,43 @@ function makeTable(itemList) {
 				openCorpInfo = item.opengCorpInfo.split('^');
 			}
 			
-			html += '<tr>';
-			html += '<td class="w12p">' + item.bidNtceNo + "-" + item.bidNtceOrd + '</td>';
-			html += '<td class="w5p">' + item.rbidNo + '</td>';
-			html += '<td class="w25p">' + item.bidNtceNm + '</td>';
-			html += '<td class="w17p">' + item.dminsttNm + '</td>';
-			html += '<td class="w13p">' + item.opengDt.slice(0, -3) + '</td>';
-			html += '<td class="w5p">' + item.prtcptCnum + '</td>';
+			html += '<li>';
+			html += '<div class="titleArea">';
+			html += '<label>입찰공고번호</label><span class="no">' + item.bidNtceNo + "-" + item.bidNtceOrd + '</span>';
+			html += '<label>재입찰번호</label><span class="rbidNo">' + item.rbidNo + '</span>';
+			html += '<h3 class="title">' + item.bidNtceNm + '</h3>';
+			html += '</div>';
+			html += '<div class="infoArea">';
+			html += '<ul>';
+			html += '<li class="dminsttNm"><label>수요기관</label>' + item.dminsttNm + '</li>';
+			html += '<li class="opengDt"><label>개찰일시</label>' + item.opengDt.slice(0, -3) + '</li>';
+			html += '<li class="opengDt"><label>참가수</label>' + item.prtcptCnum + '</li>';
 			
 			if (openCorpInfo[0]) {
-				html += '<td class="w15p">' + openCorpInfo[0] + '</td>';
-			} else {
-				html += '<td class="w15p">' + '</td>';
+				html += '<li class="openCorpInfo"><label>낙찰 예정자</label>' + openCorpInfo[0] + '</li>';
 			}
+			html += '</ul>';
+			html += '</div>';
+			html += '<div class="stateArea">';
 			switch(item.progrsDivCdNm) {
 				case '개찰완료':
-					html += '<td class="w8p"><a class="detailUrl" href="/detail/opengDtl/' + item.bidNtceNo + '/' + $('#bidSelector').val() + '" target="_blank">' + item.progrsDivCdNm + '</a></td>';
+					html += '<span class="progrsDivCdNm cmplt">'+ item.progrsDivCdNm +'</span><a class="detailUrl" href="/detail/opengDtl/' + item.bidNtceNo + '/' + $('#bidSelector').val() + '" target="_blank">내용보기</a>';
 					break;
 				case '유찰':
-					html += '<td class="w8p"><a class="detailUrl" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Failing'" + ')">' + item.progrsDivCdNm + '</a></td>';
+					html += '<span class="progrsDivCdNm fail">' + item.progrsDivCdNm + '</span><a class="detailUrl" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Failing'" + ')">내용보기</a>';
 					break;
 				case '재입찰':
-					html += '<td class="w8p"><a class="detailUrl" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Rebid'" + ')">' + item.progrsDivCdNm + '</a></td>';
+					html += '<span class="progrsDivCdNm rebid">' + item.progrsDivCdNm + '</span><a class="detailUrl" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Rebid'" + ')">내용보기</a>';
 					break;
 				default:
-					html += '<td class="w8p"></td>';
+					html += '';
 					break;
 			}
-			html += '</tr>';	
+			html += '</div>';
+			html += '</li>';	
 		}
 	} else {
-		html += '<tr><th colspan="8"> 데이터가 존재하지 않습니다. </th></tr>';
+		html += '<li class="message"> 데이터가 존재하지 않습니다. </li>';
 	}
 	table.html(html);
 	// close loadingBox

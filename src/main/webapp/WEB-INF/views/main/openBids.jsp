@@ -14,90 +14,87 @@
 </head>
 
 <body>
-<div class="container">
+<header>
 	<%@ include file="/WEB-INF/views/include/navbar.jsp" %>
-	<div class="form-row">
-		<div class="form-group col-3">
-			<label for="startDate">시작일</label>
-			<input type="date" class="form-control" id="startDate" name="startDate">
+</header>
+<div class="container contentContainer">
+	<form class="search">
+		<div class="form-group period">
+			<label for="startDate">개찰일시</label>
+			<div class="row" style="position:relative;">
+				<div class="col-6">
+					<input type="date" class="form-control" id="startDate" name="startDate">
+				</div>
+				<div class="tilde">~</div>
+				<div class="col-6">
+					<input type="date" class="form-control" id="endDate" name="endDate">
+				</div>
+			</div>
 		</div>
-		<div class="form-group col-3">
-			<label for="endDate">종료일</label>
-			<input type="date" class="form-control" id="endDate" name="endDate">
-		</div>
-		<div class="form-group col-2">
+		<div class="form-group radio">
 			<label for="bidSelector">용역구분</label>
 			<select class="form-control" id="bidSelector">
 				<option value="Servc" selected="selected">용역</option>
 				<option value="Thng">물품</option>
 			</select>
+			<ul>
+				<li>용역</li>
+				<li>물품</li>
+			</ul>
 		</div>
-		<div class="form-group col-2">
+		<div class="form-group radio">
 			<label for="dateTypeSelector">조회기준</label>
 			<select class="form-control" id="dateTypeSelector">
 				<option value="PPSSrch" selected="selected">계약일</option>
 				<option value="">등록일</option>
 			</select>
+			<ul>
+				<li>계약일</li>
+				<li>등록일</li>
+			</ul>
 		</div>
-		<div class="form-group col-1">
-			<label for="search">조회</label>
-			<button type="button" class="btn btn-primary" id="search">조회</button>
+		<button type="button" class="btn btn-primary" id="search">조회하기</button>
+	</form>
+	
+	<div class="content">
+		<div class="filterAndSort">
+			<select class="selector form-control" id="orgSelector">
+				<option value="전체선택" selected="selected">수요기관(전체)</option>
+			</select>
+			<select class="selector form-control" id="orderSelector">
+				<option value="DESC" selected="selected">개찰일시▼</option>
+				<option value="ASC">개찰일시▲</option>
+			</select>
+			<ul class="orderSelector">
+				<li class="selected" data-value="DESC" role="button">개찰일시 <span>최신순</span></li>
+				<li data-value="ASC" role="button">개찰일시 <span style="letter-spacing: -1px;">오래된순</span></li>
+			</ul>
 		</div>
-	</div>
-	<table class="table table-striped resultTable">
-		<thead>
-			<tr>
-				<th class="w12p">입찰공고번호</th>
-				<th class="w5p">재입찰<br>번호</th>
-				<th class="w25p">공고명</th>
-				<th class="w17p">
-					<select class="selector form-control" id="orgSelector">
-						<option value="전체선택" selected="selected">수요기관(전체)</option>
-					</select>
-				</th>
-				<th class="w13p">
-					<select class="selector form-control" id="orderSelector">
-						<option value="DESC" selected="selected">개찰일시▼</option>
-						<option value="ASC">개찰일시▲</option>
-					</select>
-				</th>
-				<th class="w5p">참가수</th>
-				<th class="w15p">낙찰 예정자</th>
-				<!-- 
-				<th class="col">투찰금액<br>/투찰금리</th>
-				<th class="col">투찰률<br>(%)</th>
-				 -->
-				<th class="w8p"></th>
-			</tr>
-		</thead>
-		<tbody id="itemList">
-			<tr>
-				<th id="nodata" colspan="8"> 데이터가 존재하지 않습니다. </th>
-			<tr>
-		<!-- sajhen.js 에서 생성 -->	 	
-		</tbody>
-	</table>
-	<div class="modal" id="resultBid" tabindex="-1" role="dialog" aria-labelledby="resultBid" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="resultBidTitle">유찰사유</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body" id="reason"></div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		<ul class="resultList openBids" id="itemList">
+			<li class="message">자료를 조회해주세요.</li>
+		</ul>
+		
+		<div class="modal" id="resultBid" tabindex="-1" role="dialog" aria-labelledby="resultBid" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="resultBidTitle">유찰사유</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body" id="reason"></div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<%@ include file="/WEB-INF/views/include/loadingBox.jsp" %>
-	
-	<button class="btn btn-primary" id="MOVE_TOP_BTN"><i class="fas fa-2x fa-angle-double-up"></i></button>
 </div>
-</body>
 
+<%@ include file="/WEB-INF/views/include/loadingBox.jsp" %>
+<button class="btn btn-primary" id="MOVE_TOP_BTN"><i class="fas fa-2x fa-angle-double-up"></i></button>
+	
+</body>
 </html>

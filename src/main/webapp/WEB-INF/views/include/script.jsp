@@ -1,5 +1,6 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Comptible" content="IE=edge">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
 	
 	<!-- JQuery -->
 	<script src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.min.js"></script>
@@ -42,6 +43,7 @@
 	<!-- common scripts for billion21 -->
 	<script src="${pageContext.request.contextPath }/resources/js/common/dateformat.js"></script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/util/tablePageUtil.css" >
+	<script src="${pageContext.request.contextPath }/resources/js/common/ui.js"></script>
 	
 <!-- 	<script src="${pageContext.request.contextPath }/resources/js/common/ajax/ajaxutil.js"></script> -->
 <!-- 	<script src="${pageContext.request.contextPath }/resources/js/common/ajax/jsonutil.js"></script> -->

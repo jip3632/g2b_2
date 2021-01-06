@@ -41,6 +41,11 @@ $(document).on('change', '.selector', function(e){		// selector 변경 listener
 	makeTableByOptions(itemList, type, org);
 });
 
+$(document).on('click', '.orderSelector li', function(e){	// orderSelector 클릭 listener
+	$('.orderSelector li').toggleClass('selected');
+	$('#orderSelector').val($('.orderSelector .selected').attr('data-value')).trigger('change');
+});
+
 $(document).on('click', '#search', function() {			// 조회 버튼 클릭 listener
 	getData();
 });
@@ -182,15 +187,21 @@ function makeTable(itemList) {
 	var html = '';
 	if (itemList.length != 0) {
 		for(var item of itemList){	
-			html += '<tr>';
-			html += '<td class="w10p">' + item.bfSpecRgstNo + '</td>';
-			html += '<td class="w50p"><a class="detailUrl" href=' + getDetailUrl(item.bfSpecRgstNo) + ' target=\'_blank\'>' + item.prdctClsfcNoNm + '</td>';
-			html += '<td class="w20p">' + item.rlDminsttNm + '</td>';
-			html += '<td class="w20p">' + item.rgstDt + '</td>';
-			html += '</tr>';	
+			html += '<li>';
+			html += '<div class="titleArea">';
+			html += '<label>등록번호</label><span class="no">' + item.bfSpecRgstNo + '</span>';
+			html += '<h3 class="title"><a class="detailUrl" href=' + getDetailUrl(item.bfSpecRgstNo) + ' target=\'_blank\'>' + item.prdctClsfcNoNm + '</a></h3>';
+			html += '</div>';
+			html += '<div class="infoArea">';
+			html += '<ul>';
+			html += '<li class="dminsttNm"><label>수요기관</label>' + item.rlDminsttNm + '</li>';
+			html += '<li class="rgstDt"><label>사전규격공개일시</label>' + item.rgstDt + '</li>';
+			html += '</ul>';
+			html += '</div>';
+			html += '</li>';	
 		}
 	} else {
-		html += '<tr><th colspan="4"> 데이터가 존재하지 않습니다. </th></tr>';
+		html += '<li class="message">데이터가 존재하지 않습니다. </li>';
 	}
 	$("#itemList").append(html);
 

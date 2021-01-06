@@ -40,6 +40,11 @@ $(document).on('change', '.selector', function(e){		// selector 변경 listener
 	makeTableByOptions(itemList, type, org);
 });
 
+$(document).on('click', '.orderSelector li', function(e){	// orderSelector 클릭 listener
+	$('.orderSelector li').toggleClass('selected');
+	$('#orderSelector').val($('.orderSelector .selected').attr('data-value')).trigger('change');
+});
+
 $(document).on('click', '#search', function() {			// 조회 버튼 클릭 listener
 	getData();
 });
@@ -160,16 +165,22 @@ function makeTable(itemList) {
 	let html = '';
 	if (itemList.length != 0)  {
 		for(let item of itemList){
-			html += '<tr>';
-			html += '<td class="w10p">' + item.bidNtceNo + '</td>';
-			html += '<td class="w6p">' + item.bidNtceOrd + '</td>';
-			html += '<td class="w42p"><a class="detailUrl" href=' + item.bidNtceDtlUrl + ' target=\'_blank\'>' + item.bidNtceNm + '</td>';
-			html += '<td class="w25p">' + item.dminsttNm + '</td>';
-			html += '<td class="w17p">' + item.bidNtceDt + '</td>';
-			html += '</tr>';	
+			html += '<li>';
+			html += '<div class="titleArea">';
+			html += '<label>입찰공고번호</label><span class="no">' + item.bidNtceNo + '</span>';
+			html += '<label>차수</label><span class="no">' + item.bidNtceOrd + '</span>';
+			html += '<h3 class="title"><a class="detailUrl" href=' + item.bidNtceDtlUrl + ' target=\'_blank\'>' + item.bidNtceNm + '</a></h3>';
+			html += '</div>';
+			html += '<div class="infoArea">';
+			html += '<ul>';
+			html += '<li class="dminsttNm"><label>수요기관</label>' + item.dminsttNm + '</li>';
+			html += '<li class="bidNtceDt"><label>입찰공고일시</label>' + item.bidNtceDt + '</li>';
+			html += '</ul>';
+			html += '</div>';
+			html += '</li>';	
 		}
 	} else {
-		html += '<tr><th colspan="5"> 데이터가 존재하지 않습니다. </th></tr>';
+		html += '<li class="message">데이터가 존재하지 않습니다. </li>';
 	}
 	table.html(html);
 

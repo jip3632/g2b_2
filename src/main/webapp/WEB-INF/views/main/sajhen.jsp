@@ -14,58 +14,59 @@
 </head>
 
 <body>
-<div class="container">
+<header>
 	<%@ include file="/WEB-INF/views/include/navbar.jsp" %>
-	<div class="form-row">
-		<div class="form-group col-3">
-			<label for="startDate">시작일</label>
-			<input type="date" class="form-control" id="startDate" name="startDate">
+</header>
+<div class="container contentContainer">
+	<form class="search">
+		<div class="form-group period">
+			<label for="startDate">사전규격 공개일시</label>
+			<div class="row" style="position:relative;">
+				<div class="col-6">
+					<input type="date" class="form-control" id="startDate" name="startDate">
+				</div>
+				<div class="tilde">~</div>
+				<div class="col-6">
+					<input type="date" class="form-control" id="endDate" name="endDate">
+				</div>
+			</div>
 		</div>
-		<div class="form-group col-3">
-			<label for="endDate">종료일</label>
-			<input type="date" class="form-control" id="endDate" name="endDate">
-		</div>
-		<div class="form-group col-3">
+		<div class="form-group radio">
 			<label for="bidSelector">용역구분</label>
 			<select class="form-control" id="bidSelector">
 				<option value="Servc" selected="selected">용역</option>
 				<option value="Thng">물품</option>
 			</select>
+			<ul>
+				<li>용역</li>
+				<li>물품</li>
+			</ul>
 		</div>
-		<div class="form-group col-1">
-			<label for="search">조회</label>
-			<button type="button" class="btn btn-primary" id="search">조회</button>
-		</div>
-	</div>
-	<table class="table table-striped resultTable">
-		<thead>
-			<tr>
-				<th class="w10p">등록번호</th>
-				<th class="w50p">품명(사업명)</th>
-				<th class="w20p">
-					<select class="selector form-control" id="orgSelector">
-						<option value="전체선택" selected="selected">수요기관(전체)</option>
-					</select>
-				</th>
-				<th class="w20p">
-					<select class="selector form-control" id="orderSelector">
-						<option value="DESC" selected="selected">사전규격공개일시▼</option>
-						<option value="ASC">사전규격공개일시▲</option>
-					</select>
-				</th>
-			</tr>
-		</thead>
-		<tbody id="itemList">
-			<tr>
-				<th id="nodata" colspan="4"> 데이터가 존재하지 않습니다. </th>
-			<tr>
-		<!-- sajhen.js 에서 생성 -->
-		</tbody>
-	</table>
-	<%@ include file="/WEB-INF/views/include/loadingBox.jsp" %>
+		<button type="button" class="btn btn-primary" id="search">조회하기</button>
+	</form>
 	
-	<button class="btn btn-primary" id="MOVE_TOP_BTN"><i class="fas fa-2x fa-angle-double-up"></i></button>
+	<div class="content">
+		<div class="filterAndSort">
+			<select class="selector form-control" id="orgSelector">
+				<option value="전체선택" selected="selected">수요기관(전체)</option>
+			</select>
+			<select class="selector form-control" id="orderSelector">
+				<option value="DESC" selected="selected">사전규격공개일시▼</option>
+				<option value="ASC">사전규격공개일시▲</option>
+			</select>
+			<ul class="orderSelector">
+				<li class="selected" data-value="DESC" role="button">사전규격 공개일시 <span>최신순</span></li>
+				<li data-value="ASC" role="button">사전규격 공개일시 <span style="letter-spacing: -1px;">오래된순</span></li>
+			</ul>
+		</div>
+		<ul class="resultList sajhen" id="itemList">
+			<li class="message">자료를 조회해주세요.</li>
+		</ul>
+	</div>
 </div>
-</body>
 
+<%@ include file="/WEB-INF/views/include/loadingBox.jsp" %>
+<button class="btn btn-primary" id="MOVE_TOP_BTN"><i class="fas fa-2x fa-angle-double-up"></i></button>
+
+</body>
 </html>
