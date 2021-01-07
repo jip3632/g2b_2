@@ -49,7 +49,6 @@ body {
     font-family: 'Roboto', 'NanumBarunGothic', Helvetica, sans-serif;
     letter-spacing: -0.5px;
 	background-color: #F1F4F8;
-	padding-top: 81px;
 	color: #323538;
 }
 .container {
@@ -58,7 +57,9 @@ body {
   margin-right: auto;
   margin-left: auto;
 }
-
+.contentContainer {
+	padding-top: 81px;
+}
 @media (min-width: 992px) {
   .container {
     padding-right: 30px;
@@ -72,9 +73,151 @@ body {
 }
 
 /* openDtl page */
-div.opengInfo {
-	width: 960px;
+@media (min-width: 1660px) {
+  .container.opengInfo {
+    max-width: 1140px;
+  }
 }
+div.opengInfo {
+	background: #fff;
+	box-shadow: 0 0 5px 0 rgba(0,0,0,0.05);
+	padding: 50px;
+    min-height: 100vh;
+}
+div.opengInfo h1 {
+	font-size: 30px;
+	font-weight: normal;
+	margin-bottom: 30px;
+}
+div.opengInfo .content .header,
+div.opengInfo .content .section {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+div.opengInfo .content .header  {
+	border-bottom: 1px #E0E0EC solid;
+	padding-bottom: 20px;
+}
+div.opengInfo .content .header h2 {
+	font-size: 25px;
+	margin: 0;
+	line-height: 35px;
+	margin-top: -3px;
+}
+div.opengInfo .content label {
+	color: #767676;
+	width: 120px;
+	margin-bottom: 10px;
+	line-height: 22px;
+}
+div.opengInfo .content label + *  {
+	display: block;
+	width: calc(100% - 120px);
+	margin-bottom: 10px;
+	line-height: 22px;
+}
+
+div.opengInfo .content .viewOptions {
+	width: 100%;
+	background: #F7F7F9;
+	border: 1px #E0E0EC solid;
+	padding: 12px 0;
+	margin: 15px 0;
+	text-align: center;
+}
+div.opengInfo .content .viewOptions span {
+	display: inline-block;
+	padding: 0 20px;
+	border-right: 1px #E0E0EC solid;	
+}
+div.opengInfo .content .viewOptions span:last-child {
+	border-right: 0;
+}
+div.opengInfo .content .viewOptions button {
+	background: #fff;
+	border: 1px #E0E0EC solid;
+	font-size: 14px;
+    padding: .155rem 1.05rem;
+    margin-left: 10px;
+}
+@media (max-width: 565px) {
+	div.opengInfo .content .viewOptions {
+		text-align: left;
+	}
+	div.opengInfo .content .viewOptions span {
+		border-right: 0;
+		width: 100%;
+		position: relative;
+		line-height: 27px;
+		margin-bottom: 5px;
+	}
+	div.opengInfo .content .viewOptions span:last-child {
+		margin-bottom: 0;
+	}
+	div.opengInfo .content .viewOptions button {
+		position: absolute;
+		right: 20px;
+	}
+}
+
+
+div.opengInfo .content h3 {
+	font-size: 21px;
+	font-weight: normal;
+}
+div.opengInfo .content .results {
+	max-width: 100%;
+	overflow: auto;
+	margin-top: 10px;
+}
+div.opengInfo table {
+	width: 100%;
+}
+div.opengInfo table caption {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+}
+div.opengInfo table th {
+	color: #767676;
+	font-weight: normal;
+	text-align: center;
+	padding: 10px;
+	white-space: nowrap;
+}
+div.opengInfo table td {
+	text-align: center;
+	border: 1px #E0E0EC solid;
+	padding: 5px 10px;
+	line-height: 20px;
+	height: 40px;
+	white-space: nowrap;
+}
+div.opengInfo table td:first-child {
+	border-left: 0;
+}
+div.opengInfo table td:last-child {
+	border-right: 0;
+}
+div.opengInfo table td.companyName {
+	text-align: left;
+	word-break: keep-all;
+	white-space: normal;
+}
+
+@media (max-width: 768px) {
+	div.opengInfo {
+		padding: 30px;
+	}
+	div.opengInfo .content label {
+		width: 100px;
+	}
+	div.opengInfo .content label + * {
+		width: calc(100% - 100px);
+	}
+}
+
 /*
  header, navbar css	
 */

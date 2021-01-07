@@ -90,7 +90,7 @@ function makeRankTable(resultObj) {
 		html += '<tr>';
 		html += '<td><span>' + items[i].opengRank + '</span></td>';
 		html += '<td><span>' + items[i].prcbdrBizno + '</span></td>';
-		html += '<td><div><span>' + items[i].prcbdrNm + '</span></div></td>';
+		html += '<td class="companyName"><span>' + items[i].prcbdrNm + '</span></td>';
 		html += '<td><span>' + items[i].prcbdrCeoNm + '</span></td>';
 		html += '<td><span>' + numberWithCommas(items[i].bidprcAmt) + '</span></td>';
 		html += '<td><span>' + items[i].bidprcrt + '</span></td>';
