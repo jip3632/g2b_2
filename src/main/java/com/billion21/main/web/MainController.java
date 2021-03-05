@@ -1,4 +1,4 @@
-package com.billion21.ws_mqtt.ctl;
+package com.billion21.main.web;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController {
@@ -53,6 +55,12 @@ public class MainController {
 		model.addAttribute("bidNtceNo", bidNtceNo);
 		model.addAttribute("bidType", bidType);
 		return "main/detail/opengDtl";
+	}
+	
+	@RequestMapping(value = "/searchManage", method = RequestMethod.GET)
+	public ModelAndView viewSearchManage(@RequestParam Map<?, ?> requestMap) {
+		ModelAndView mv = new ModelAndView("main/searchMng");
+		return mv;
 	}
 	
 	/**

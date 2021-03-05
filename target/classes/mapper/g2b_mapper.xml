@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SearchDAO">
+
+	<resultMap type="com.billion21.search.service.SearchVO" id="searchVO">
+		<result property="sn" column="SN" />
+		<result property="instNm" column="INST_NM" />
+		<result property="toplvInstNm" column="TOPLV_INST_NM" />
+		<result property="useAt" column="USE_AT" />
+	</resultMap>
+
+	<select id="selectSearchTargetList" resultMap="searchVO">
+		SELECT
+			*
+		FROM
+			SRCH_SEL_TEMP
+		WHERE
+			USE_AT = 'Y'
+	</select>
+	
+	<select id="selectAllSearchList" resultMap="searchVO">
+		SELECT
+			*
+		FROM
+			SRCH_SEL_TEMP
+	</select>
+	
+	<select id="isToplvInst" resultType="Integer">
+	</select>
+	
+</mapper>
