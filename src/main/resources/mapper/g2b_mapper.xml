@@ -25,7 +25,34 @@
 			SRCH_SEL_TEMP
 	</select>
 	
-	<select id="isToplvInst" resultType="Integer">
-	</select>
+	<insert id="insertSearchKeyword" parameterType="com.billion21.search.service.SearchVO">
+		INSERT INTO SRCH_SEL_TEMP(
+			INST_NM
+			,TOPLV_INST_NM
+			,USE_AT
+		) VALUES (
+			#{instNm}
+			,#{toplvInstNm}
+			,#{useAt}
+		);
+	</insert>
+	
+	<update id="updateSearchKeyword" parameterType="com.billion21.search.service.SearchVO" >
+		UPDATE
+			SRCH_SEL_TEMP
+		SET
+			USE_AT = #{useAt}
+			,INST_NM = #{instNm}
+			,TOPLV_INST_NM = #{toplvInstNm}
+		WHERE
+			SN = #{sn}
+	</update>
+	
+	<delete id="deleteSearchKeyword" parameterType="com.billion21.search.service.SearchVO">
+		DELETE FROM
+			SRCH_SEL_TEMP
+		WHERE
+			SN = #{sn}
+	</delete>
 	
 </mapper>

@@ -13,33 +13,6 @@
 	<%@ include file="/WEB-INF/views/include/navbar.jsp" %>
 </header>
 <div class="container contentContainer">
-	<form class="search">
-		<div class="form-group period">
-			<label for="startDate">사전규격 공개일시</label>
-			<div class="row" style="position:relative;">
-				<div class="col-6">
-					<input type="date" class="form-control" id="startDate" name="startDate">
-				</div>
-				<div class="tilde">~</div>
-				<div class="col-6">
-					<input type="date" class="form-control" id="endDate" name="endDate">
-				</div>
-			</div>
-		</div>
-		<div class="form-group radio">
-			<label for="bidSelector">용역구분</label>
-			<select class="form-control" id="bidSelector">
-				<option value="Servc" selected="selected">용역</option>
-				<option value="Thng">물품</option>
-			</select>
-			<ul>
-				<li>용역</li>
-				<li>물품</li>
-			</ul>
-		</div>
-		<button type="button" class="btn btn-primary" id="search">조회하기</button>
-	</form>
-	
 	<div class="content">
 		<div class="filterAndSort">
 			<select class="selector form-control" id="orgSelector">
@@ -54,25 +27,53 @@
 				<li data-value="ASC" role="button">사전규격 공개일시 <span style="letter-spacing: -1px;">오래된순</span></li>
 			</ul>
 		</div>
-		<ul class="resultList sajhen" id="itemList">
-			<li>
-				<div class="titleArea">
-					<label>기관명</label>
-					<h3 class="title">해양수산청</h3>
-				</div>
-				<div class="infoArea">
-					<ul>
-						<li>사용</li>
-						<li>미사용</li>
-					</ul>
-				</div>
-			</li>
-		</ul>
+		<table id="searchList">
+			<colgroup>
+				<col width="30%">
+				<col width="30%">
+				<col width="20%">
+				<col width="20%">
+			</colgroup>
+			<thead>
+				<tr>
+					<td>기관명</td>
+					<td>상위기관</td>
+					<td>사용여부</td>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<div>
+			<button type="button" id="add">검색어추가</button>
+			<button type="button" id="listSave">저장</button>
+		</div>
 	</div>
 </div>
+
+<!-- modalBox -->
+<div class="modal bd-example-modal-sm" id="addForm">
+ 	<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+   		<div class="modal-content updateForm">
+   			<div>
+   				<h5>검색어 추가</h5>
+   			</div>
+			<div>
+				<label for="instNm">기관명</label>
+				<input type="text" id="instNm"/>
+			</div>
+			<div>
+				<label for="toplvInstNm">상위기관명</label>
+				<input type="text" id="toplvInstNm"/>
+			</div>
+			<div>
+				<button type="button" id="addKeyword">추가</button>
+				<button type="button" id="close">닫기</button>
+			</div>
+   		</div>
+	</div>
+</div>
+
+
 </body>
-
-
-
-
 </html>

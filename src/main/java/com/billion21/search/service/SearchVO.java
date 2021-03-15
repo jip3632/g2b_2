@@ -7,6 +7,7 @@ public class SearchVO {
 	private String instNm;			// 기관명
 	private String toplvInstNm;		// 최상위기관이름
 	private String useAt;			// 사용여부
+	private String type;			// update 타입
 
 	/* Constructor */
 	public SearchVO() {
@@ -29,5 +30,9 @@ public class SearchVO {
 	public String getUseAt() { return useAt;}
 
 	public void setUseAt(String useAt) { this.useAt = useAt;}
+	
+	public String getType() { return type;}
+
+	public void setType(String type) { this.type = type;}	
 	
 }
