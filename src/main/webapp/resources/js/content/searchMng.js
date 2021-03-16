@@ -6,7 +6,9 @@
 // ajax test
 
 $(document).ready(function(){
-	getSearchListAjax();
+	makeSearchList();
+	
+	console.log(getAllKeywordList());
 });
 
 $(document).on('click', '#listSave', function(){
@@ -39,7 +41,7 @@ $(document).on('click', '#listSave', function(){
 		,success : function(data) {
 			if (data.result == 'success') {
 				alert('저장성공');
-				getSearchListAjax();
+				makeSearchList();
 			}
 		}
 	});
@@ -47,21 +49,10 @@ $(document).on('click', '#listSave', function(){
 });
 
 // 검색어 리스트 만들기
-function getSearchListAjax() {
-	$.ajax({
-		url : '/ajax/selectAllSearchList',
-		type : 'GET',
-		dataType : 'json',
-		success : function(data) {
-			if (data.result == 'success') {
-				console.log(data.searchList);
-				
-				makeSearchList(data.searchList);
-			}
-		}
-	});
-}
-function makeSearchList(searchList) {
+function makeSearchList() {
+	
+	let searchList = getAllKeywordObjList();
+	
 	let $table = $("#searchList tbody");
 	let html = '';
 	
@@ -80,7 +71,7 @@ function makeSearchList(searchList) {
 			html += '<label for="useAt">사용안함</label><input type="radio" name="useAt' + item.sn + '" value="N" checked/>';
 			html += '</td>';
 		}
-		html += '<td class="btn""><button class="update" type="button">수정</button><button class="delete" type="button">삭제</button></td>';
+		html += '<td class="btn""><button class="delete" type="button">삭제</button></td>';
 		html += '<td class="sn" style="display:none;">' + item.sn + '</td>';
 		html += '<td class="type" style="display:none;">update</td>';
 		html += '</tr>';
@@ -121,7 +112,7 @@ $(document).on('click', 'button#addKeyword', function(){
 	html += '<label for="useAt">사용</label><input type="radio" name="useAt' + instNm + '" value="Y" checked/>';
 	html += '<label for="useAt">사용안함</label><input type="radio" name="useAt' + instNm + '" value="N"/>';
 	html += '</td>';
-	html += '<td class="btn""><button class="update" type="button">수정</button><button class="delete" type="button">삭제</button></td>';
+	html += '<td class="btn""><button class="delete" type="button">삭제</button></td>';
 	html += '<td class="sn" style="display:none;"></td>';
 	html += '<td class="type" style="display:none;">insert</td>';
 	html += '</tr>';

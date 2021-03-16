@@ -47,6 +47,9 @@
 	
 <!-- 	<script src="${pageContext.request.contextPath }/resources/js/common/ajax/ajaxutil.js"></script> -->
 <!-- 	<script src="${pageContext.request.contextPath }/resources/js/common/ajax/jsonutil.js"></script> -->
+
+	<!-- common js -->
+	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/content/keywordAjax.js"></script>
 	
 	
 	

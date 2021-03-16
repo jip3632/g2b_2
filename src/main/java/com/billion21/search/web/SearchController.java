@@ -58,9 +58,10 @@ public class SearchController {
 		ObjectMapper mapper = new ObjectMapper();
 		List<SearchVO> dataList = mapper.readValue(jsonString, new TypeReference<List<SearchVO>>(){});
 		
+		/*
 		for (SearchVO item : dataList) {
 			System.out.println(item.getSn() + " : " + item.getUseAt());
-		}
+		}*/
 		
 		int cnt = 0;
 		for (SearchVO searchVO : dataList) {
