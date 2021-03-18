@@ -62,16 +62,16 @@ function makeSearchList() {
 		html += '<td class="toplvInstNm">' + item.toplvInstNm + '</td>';
 		if (item.useAt == 'Y') {
 			html += '<td class="useAtRow">';
-			html += '<label for="useAt">사용</label><input type="radio" name="useAt' + item.sn + '" value="Y" checked/>';
-			html += '<label for="useAt">사용안함</label><input type="radio" name="useAt' + item.sn + '" value="N"/>';
+			html += '<input type="radio" name="useAt' + item.sn + '" value="Y" checked/><label for="useAt">사용</label>';
+			html += '<input type="radio" name="useAt' + item.sn + '" value="N"/><label for="useAt">사용안함</label>';
 			html += '</td>';
 		} else {
 			html += '<td class="useAtRow">';
-			html += '<label for="useAt">사용</label><input type="radio" name="useAt' + item.sn + '" value="Y"/>';
-			html += '<label for="useAt">사용안함</label><input type="radio" name="useAt' + item.sn + '" value="N" checked/>';
+			html += '<input type="radio" name="useAt' + item.sn + '" value="Y"/><label for="useAt">사용</label>';
+			html += '<input type="radio" name="useAt' + item.sn + '" value="N" checked/><label for="useAt">사용안함</label>';
 			html += '</td>';
 		}
-		html += '<td class="btn""><button class="delete" type="button">삭제</button></td>';
+		html += '<td class="deleteBtnAtRow"><button class="delete" type="button">삭제</button></td>';
 		html += '<td class="sn" style="display:none;">' + item.sn + '</td>';
 		html += '<td class="type" style="display:none;">update</td>';
 		html += '</tr>';
@@ -109,10 +109,10 @@ $(document).on('click', 'button#addKeyword', function(){
 	html += '<td class="instNm">' + instNm + '</td>';
 	html += '<td class="toplvInstNm">' + toplvInstNm + '</td>';
 	html += '<td class="useAtRow">';
-	html += '<label for="useAt">사용</label><input type="radio" name="useAt' + instNm + '" value="Y" checked/>';
-	html += '<label for="useAt">사용안함</label><input type="radio" name="useAt' + instNm + '" value="N"/>';
+	html += '<input type="radio" name="useAt' + instNm + '" value="Y" checked/><label for="useAt">사용</label>';
+	html += '<input type="radio" name="useAt' + instNm + '" value="N"/><label for="useAt">사용안함</label>';
 	html += '</td>';
-	html += '<td class="btn""><button class="delete" type="button">삭제</button></td>';
+	html += '<td class="deleteBtnAtRow"><button class="delete" type="button">삭제</button></td>';
 	html += '<td class="sn" style="display:none;"></td>';
 	html += '<td class="type" style="display:none;">insert</td>';
 	html += '</tr>';
