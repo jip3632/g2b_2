@@ -28,8 +28,8 @@
 	</div> -->
 	<table id="searchList">
 		<colgroup>
-			<col width="240px">
-			<col width="240px">
+			<col width="*">
+			<col width="*">
 			<col width="*">
 			<col width="120px">
 		</colgroup>

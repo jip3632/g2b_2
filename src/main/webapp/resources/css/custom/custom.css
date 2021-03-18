@@ -747,16 +747,10 @@ searchMng
 	justify-content: center;
 }
 .searchMng .floatedBtns {
-	width: 120px;
-    position: sticky;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-left: 50px;
-    margin-right: -170px;
-	z-index: 10;
+	display: flex;
 }
 .searchMng .floatedBtns button {
-	width: 100%;
+	width: 50%;
 	height: 48px;
 	border: 0;
 	border-radius: 4px;
@@ -767,6 +761,7 @@ searchMng
 	background: rgba(41, 114, 232, 0.1);
 	color: #1B54B1;
 	border: 1px #2972E8 solid;
+	margin-right: 5px;
 	margin-bottom: 5px;
 }
 .searchMng .floatedBtns button#add:hover {
@@ -781,13 +776,13 @@ searchMng
 }
 
 .searchMng table {
+	width: 100%;
 	margin: 30px 0;
 	border-radius: 4px;
 	border: 1px #2972E8 solid;
     border-collapse: separate;
     border-spacing: 0;
 }
-
 .searchMng table th,
 .searchMng table td {
 	height: 44px;
@@ -796,7 +791,6 @@ searchMng
 	border-left: 1px #d0d9e8 solid;
 	background: #fff;
 }
-
 .searchMng table th:first-child,
 .searchMng table td:first-child {
 	border-left: 0;
@@ -807,7 +801,6 @@ searchMng
 .searchMng table .deleteBtnAtRow {
 	border-bottom-right-radius: 4px;
 }
-
 .searchMng table thead th {
 	font-weight: normal;
     color: #1B54B1;
@@ -817,16 +810,16 @@ searchMng
 .searchMng table tbody .deleteBtnAtRow {
 	text-align: center;
 }
-
+.searchMng table tbody .useAtRow > div {
+	white-space: nowrap;
+	margin: 4px 0;
+}
 .searchMng table label {
 	margin-bottom: 0;
 }
 .searchMng table input[type=radio] {
 	margin-right: 4px;
 	vertical-align: middle;
-}
-.searchMng table label + input[type=radio] {
-	margin-left: 10px;
 }
 .searchMng table .delete {
 	border: 1px #C5C5C5 solid;
@@ -853,4 +846,49 @@ searchMng
     height: 36px;
     border-radius: 4px;
     vertical-align: middle;
+}
+
+@media (min-width: 1200px) {
+	.searchMng {
+		display: flex;
+	}
+	.searchMng .floatedBtns {
+		display: block;
+		width: 120px;
+	    position: sticky;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    margin-left: 50px;
+	    margin-right: -170px;
+		z-index: 10;
+	}
+	.searchMng .floatedBtns button {
+		width: 100%;
+	}
+	.searchMng table {
+		width: auto;
+		min-width: 760px;
+	}
+}
+@media (max-width: 1199px) {
+	.searchMng {
+		padding-bottom: 88px;
+	}
+	.searchMng .floatedBtns {
+	    position: fixed;
+	    left: 0;
+	    bottom: 0;
+	    width: 100%;
+	    background: #fff;
+	    padding: 20px 20px 15px;
+	    border-top: 1px #E0E0EC solid;
+	}
+}
+@media (min-width: 992px) {
+	.searchMng table tbody .useAtRow > div {
+		display: inline-block;
+	}
+	.searchMng table tbody .useAtRow > div + div {
+		margin: 0 0 0 10px;
+	}
 }
