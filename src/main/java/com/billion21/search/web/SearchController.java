@@ -29,7 +29,12 @@ public class SearchController {
 		
 		List<?> item = searchService.selectSearchTargetList();
 		
-		mv.addObject("searchList", item);
+		if (item != null && item.size() > 0) {
+			mv.addObject("result", "success");
+			mv.addObject("searchList", item);
+		} else {
+			mv.addObject("result", "fail");
+		}
 		
 		return mv;
 	}

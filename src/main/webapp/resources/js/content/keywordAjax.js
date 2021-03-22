@@ -35,7 +35,7 @@ function getAllKeywordList(){
 	let list = [];
 	
 	$.ajax({
-		url : '/ajax/selectAllSearchList',
+		url : '/ajax/selectSearchTargetList',
 		type : 'GET',
 		dataType : 'json',
 		async : false,
