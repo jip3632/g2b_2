@@ -642,6 +642,10 @@ input[type=date]::-webkit-calendar-picker-indicator {
     flex-shrink: 0;
 }
 
+.sajhen.resultList > li { padding: 5px 25px; margin-bottom: 2px; }
+.sajhen.resultList > li .titleArea label { margin-top: 4px; argin-bottom: 4px; }
+.sajhen.resultList > li .titleArea h3.title { margin-top: 0; }
+
 .sajhen.resultList > li .infoArea li label { width: 120px; }
 .gonggo.resultList > li .infoArea li label { width: 95px; }
 .contract.resultList > li .infoArea li label { width: 70px; }
