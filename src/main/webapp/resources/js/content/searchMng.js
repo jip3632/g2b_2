@@ -8,7 +8,7 @@
 $(document).ready(function(){
 	makeSearchList();
 	
-	console.log(getAllKeywordList());
+	//console.log(getAllKeywordList());
 });
 
 $(document).on('click', '#listSave', function(){
@@ -28,7 +28,7 @@ $(document).on('click', '#listSave', function(){
 		dataList.push(dataObj);
 	}
 	
-	console.log(dataList);
+	//console.log(dataList);
 	
 	$.ajax({
 		url : '/ajax/updateSearchList'
