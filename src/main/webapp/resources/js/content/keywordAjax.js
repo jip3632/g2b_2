@@ -16,6 +16,7 @@ function getAllKeywordObjList(){
 		type : 'GET',
 		dataType : 'json',
 		async : false,
+		cache : false,
 		success : function(data) {
 			if (data.result == 'success') {
 				list = data.searchList;
@@ -39,6 +40,7 @@ function getAllKeywordList(){
 		type : 'GET',
 		dataType : 'json',
 		async : false,
+		cache : false,
 		success : function(data) {
 			if (data.result == 'success') {
 				data.searchList.forEach(function(item){
@@ -47,6 +49,7 @@ function getAllKeywordList(){
 			}
 		}
 	});
+
 	return list;
 }
 
@@ -62,6 +65,7 @@ function getKeywordObjForSearchList() {
 		type : 'GET',
 		dataType : 'json',
 		async : false,
+		cache : false,
 		success : function(data) {
 			if (data.result == 'success') {
 				list = data.searchList;
