@@ -58,18 +58,36 @@ body {
   margin-left: auto;
 }
 .contentContainer {
-	padding-top: 81px;
+	/* padding-top: 81px; */
 }
 @media (min-width: 992px) {
   .container {
     padding-right: 30px;
   	padding-left: 30px;
   }
+  .resultList {
+    background: #fff;
+    border-radius: 4px;
+  }
+  .resultList > li {
+  	padding: 5px 25px;
+  	background: transparent;
+	margin-bottom: 0px;
+    border-radius: 0;
+    border-top: 1px #F1F4F8 solid;
+    box-shadow: none;
+  }
+  .openBids.resultList > li .titleArea {
+  	padding-top: 10px;
+  }
 }
 @media (min-width: 1660px) {
   .container {
     max-width: 1600px;
   }
+  .contract.resultList > li .infoArea ul { display: flex; flex-wrap: wrap; }
+  .contract.resultList > li .infoArea li.thtmCntrctAmt { width: 193px; }
+  .contract.resultList > li .infoArea li.dminsttNm { width: calc(100% - 193px); }
 }
 
 /* openDtl page */
@@ -222,9 +240,9 @@ div.opengInfo table td.companyName {
  header, navbar css	
 */
 header {
-	position: fixed;
+	/* position: fixed;
 	top: 0;
-	left: 0;
+	left: 0; */
 	width: 100%;
 	height: 81px;
 	border-bottom: 1px #E0E0EC solid;
@@ -440,7 +458,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
 	form.search {
 		min-width: 295px;
 		position: sticky;
-	    top: 112px;
+	    /* top: 112px; */
+	    top: 30px;
 	    height: 500px;
 	}
 }
@@ -568,18 +587,21 @@ input[type=date]::-webkit-calendar-picker-indicator {
 		width: 100%;
 	    flex-shrink: 1;
 	}
+	.resultList > li {
+		display: flex;
+	    align-items: center;
+		list-style: none;
+		background-color: #ffffff;
+		box-shadow: 0 0 5px 0 rgba(0,0,0,0.05);
+		border-radius: 4px;
+		padding: 22px 25px;
+	    margin-bottom: 12px;
+	}
 }
-
-
 .resultList > li {
 	display: flex;
     align-items: center;
 	list-style: none;
-	background-color: #ffffff;
-	box-shadow: 0 0 5px 0 rgba(0,0,0,0.05);
-	border-radius: 4px;
-	padding: 22px 25px;
-    margin-bottom: 12px;
 }
 .resultList > li.message {
 	display: block;
@@ -612,7 +634,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
 	border-left: 1px #C5C5C5 solid;
 }
 .resultList > li .titleArea h3.title {
-	font-size: 18px;
+	/* font-size: 18px; */
+	font-size: 16px;
 	font-weight: normal;
 	word-break: keep-all;
 	margin-top: 5px;
@@ -622,7 +645,6 @@ input[type=date]::-webkit-calendar-picker-indicator {
 .resultList > li .titleArea h3.title a {
 	color: #1B54B1;
 }
-
 .resultList > li .infoArea li {
 	display: flex;
 	list-style: none;
@@ -642,14 +664,16 @@ input[type=date]::-webkit-calendar-picker-indicator {
     flex-shrink: 0;
 }
 
-.sajhen.resultList > li { padding: 5px 25px; margin-bottom: 2px; }
-.sajhen.resultList > li .titleArea label { margin-top: 4px; argin-bottom: 4px; }
-.sajhen.resultList > li .titleArea h3.title { margin-top: 0; }
+/* 리스트 크기 수정 */
+.resultList > li .titleArea label { margin-top: 4px; margin-bottom: 4px; }
+.resultList > li .titleArea h3.title { margin-top: 0; }
 
 .sajhen.resultList > li .infoArea li label { width: 120px; }
 .gonggo.resultList > li .infoArea li label { width: 95px; }
 .contract.resultList > li .infoArea li label { width: 70px; }
 .openBids.resultList > li .infoArea li label { width: 72px; }
+
+
 
 .openBids.resultList > li .stateArea {
 	width: 86px;
