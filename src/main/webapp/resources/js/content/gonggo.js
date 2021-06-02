@@ -133,7 +133,7 @@ function getAjaxReq(startDate, endDate, bidType, dminstt) {
 	var ajax = $.ajax({
 		url : '/getAjaxData',
 		data : {
-			getUrl : 'http://apis.data.go.kr/1230000/BidPublicInfoService/getBidPblancListInfo' + bidType + 'PPSSrch',
+			getUrl : 'http://apis.data.go.kr/1230000/BidPublicInfoService02/getBidPblancListInfo' + bidType + 'PPSSrch',
 			ServiceKey : 'WuNaQTtVX5qa0mJTnEds7zu3pTB1IcHNLMW5iT2Fba3PetWOggKLDHXsq3bgCCaPPytIm%2B36areboI0JTnqvxg%3D%3D',
 			pageNo : '1',
 			inqryDiv : '1',

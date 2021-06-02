@@ -32,7 +32,7 @@ $(document).ready(function(){							// 페이지 최초 로딩시 초기화
 	$("#endDate").val(date.toISOString().slice(0, 10));
 	date.setDate(date.getDate() - 6);
 	$('#startDate').val(date.toISOString().slice(0, 10));
-	});
+});
 
 
 $(document).on('change', '.selector', function(e){		// selector 변경 listener

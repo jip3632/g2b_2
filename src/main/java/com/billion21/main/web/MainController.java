@@ -138,6 +138,7 @@ public class MainController {
 		// set json data to String
 		while((inputLine = br.readLine()) != null) {
 			jsonStr += inputLine.trim();
+			System.out.println(inputLine.trim());
 		}
 		//long end = System.currentTimeMillis();
 		//System.out.println("실행시간 : " + (end - start) / 1000.0);

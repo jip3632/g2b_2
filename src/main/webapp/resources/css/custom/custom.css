@@ -642,7 +642,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
     flex-shrink: 0;
 }
 
-.sajhen.resultList > li { padding: 5px 25px; margin-bottom: 2px; }
+.resultList > li { padding: 5px 25px; margin-bottom: 2px; }
 .sajhen.resultList > li .titleArea label { margin-top: 4px; argin-bottom: 4px; }
 .sajhen.resultList > li .titleArea h3.title { margin-top: 0; }
 

@@ -60,10 +60,18 @@ $(document).on('click', '#MOVE_TOP_BTN', function() {
  * 작성자 : 박종일
  */
 $(document).on('click', '.detailUrl', function(e){
-	let td = $(e.target).parent();
-	let row = $(e.target).parent().parent();
+	let row = $(e.target).parents('li');
 
-	if (td.hasClass('selected') == false) {
-		td.addClass('selected');
+	if (row.hasClass('selected') == false) {
+		row.addClass('selected');
+		if ($(this).hasClass('btnType') == true) {
+			row.find('h3.title').css({
+				"color" : "#FF0000"
+			});
+		} else {
+			row.find('a.detailUrl').css({
+				"color" : "#FF0000"
+			});
+		}
 	}
 });

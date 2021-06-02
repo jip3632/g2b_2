@@ -61,10 +61,12 @@
 			<select class="selector form-control" id="orgSelector">
 				<option value="전체선택" selected="selected">수요기관(전체)</option>
 			</select>
+			<!-- 
 			<select class="selector form-control" id="orderSelector">
 				<option value="DESC" selected="selected">개찰일시▼</option>
 				<option value="ASC">개찰일시▲</option>
 			</select>
+			 -->
 			<ul class="orderSelector">
 				<li class="selected" data-value="DESC" role="button">개찰일시 <span>최신순</span></li>
 				<li data-value="ASC" role="button">개찰일시 <span style="letter-spacing: -1px;">오래된순</span></li>

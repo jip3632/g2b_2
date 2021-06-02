@@ -294,13 +294,13 @@ function makeTable(itemList) {
 			html += '<div class="stateArea">';
 			switch(item.progrsDivCdNm) {
 				case '개찰완료':
-					html += '<span class="progrsDivCdNm cmplt">'+ item.progrsDivCdNm +'</span><a class="detailUrl" href="/detail/opengDtl/' + item.bidNtceNo + '/' + $('#bidSelector').val() + '" target="_blank">내용보기</a>';
+					html += '<span class="progrsDivCdNm cmplt">'+ item.progrsDivCdNm +'</span><a class="detailUrl btnType" href="/detail/opengDtl/' + item.bidNtceNo + '/' + $('#bidSelector').val() + '" target="_blank">내용보기</a>';
 					break;
 				case '유찰':
-					html += '<span class="progrsDivCdNm fail">' + item.progrsDivCdNm + '</span><a class="detailUrl" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Failing'" + ')">내용보기</a>';
+					html += '<span class="progrsDivCdNm fail">' + item.progrsDivCdNm + '</span><a class="detailUrl btnType" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Failing'" + ')">내용보기</a>';
 					break;
 				case '재입찰':
-					html += '<span class="progrsDivCdNm rebid">' + item.progrsDivCdNm + '</span><a class="detailUrl" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Rebid'" + ')">내용보기</a>';
+					html += '<span class="progrsDivCdNm rebid">' + item.progrsDivCdNm + '</span><a class="detailUrl btnType" data-toggle="modal" href="#resultBid" onclick="javascript:openResultBid(' + item.bidNtceNo + ", 'Rebid'" + ')">내용보기</a>';
 					break;
 				default:
 					html += '';
