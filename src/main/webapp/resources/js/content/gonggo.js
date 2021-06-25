@@ -18,8 +18,8 @@ var len = 0;
 
 $(document).ready(function(){							// 페이지 최초 로딩시 초기화
 	// make org selector
-	valid_dminsttNms = getAllKeywordList().sort();
-	qry_dminsttNms = getAllKeywordList();
+	valid_dminsttNms = KeywordAjax.getAvailableSearchList('inst', 'string').sort();
+	qry_dminsttNms = KeywordAjax.getAvailableSearchList('inst', 'string');
 	let orgSelctor = $('#orgSelector');
 	for (let org of valid_dminsttNms) {
 		let html = '<option value="' + org +'">' + org + '</option>'
@@ -32,23 +32,36 @@ $(document).ready(function(){							// 페이지 최초 로딩시 초기화
 	date.setDate(date.getDate() - 6);
 	$('#startDate').val(date.toISOString().slice(0, 10));
 	
+	console.log(window.localStorage.getItem('exist'));
 });
 
 $(document).on('change', '.selector', function(e){		// selector 변경 listener
-	let type = $('#orderSelector').val();
-	let org = $('#orgSelector').val();
-	
-	makeTableByOptions(itemList, type, org);
-});
-
-$(document).on('click', '.orderSelector li', function(e){	// orderSelector 클릭 listener
-	$('.orderSelector li').toggleClass('selected');
-	$('#orderSelector').val($('.orderSelector .selected').attr('data-value')).trigger('change');
+	makeSortedTable();
 });
 
 $(document).on('click', '#search', function() {			// 조회 버튼 클릭 listener
 	getData();
 });
+
+/*
+ * sort data list
+ */ 
+function makeSortedTable() {
+	let type1 = $('#dateOrder .selected').data('value');
+	let type2 = $('#insttOrder .selected').data('value');
+	let org = $('#orgSelector').val();
+
+	if (org != '전체선택') {
+		tempItemList = filterSuchdminsttNm(org);
+	} else {
+		tempItemList = itemList;
+	}
+	
+	//console.log(type2 + ' || ' + type1);
+	tempItemList = tempItemList.sort(compareMethodObj.GONGGO[type2][type1]);
+	
+	makeTable(tempItemList);
+}
 
 /*
  * itemList와 table 초기화 한뒤 startDate, endDate를 설정하고 doAjaxRequest(startDate, endDate)하는 함수
@@ -89,10 +102,9 @@ function getData() {
  */ 
 function doAjaxRequest(startDate, endDate, bidType) {
 	
-	var s;
-	var e;
-	
-	s = new Date().getTime();
+	//var s;
+	//var e;
+	//s = new Date().getTime();
 	
 	let ajaxArr = [];
 	for (var dminstt of qry_dminsttNms) {
@@ -112,12 +124,10 @@ function doAjaxRequest(startDate, endDate, bidType) {
 		alert('api 서비스 내부오류.. 잠시후 다시 시도해 주시거나\n조회기준을 등록일로 검색하세요');
 	})
 	.done(function(){			// complete function
-		let type = $('#orderSelector').val();
-		let org = $('#orgSelector').val();
-		makeTableByOptions(itemList, type, org);
+		makeSortedTable();
 		
-		e = new Date().getTime();
-		console.log("time : " + (e - s));
+		//e = new Date().getTime();
+		//console.log("time : " + (e - s));
 	});
 }
 
@@ -162,15 +172,22 @@ function getAjaxReq(startDate, endDate, bidType, dminstt) {
 function makeTable(itemList) {
 
 	let table = $("#itemList");
+	
 	table.empty();
+	
 	let html = '';
+	var key = $('#storageKey').val();
 	if (itemList.length != 0)  {
 		for(let item of itemList){
 			html += '<li>';
 			html += '<div class="titleArea">';
 			html += '<label>입찰공고번호</label><span class="no">' + item.bidNtceNo + '</span>';
 			html += '<label>차수</label><span class="no">' + item.bidNtceOrd + '</span>';
-			html += '<h3 class="title"><a class="detailUrl" href=' + item.bidNtceDtlUrl + ' target=\'_blank\'>' + item.bidNtceNm + '</a></h3>';
+			if (LocalStorageUtil.isIncluded(key, item.bidNtceNo.concat(item.bidNtceOrd))) {
+				html += '<h3 class="title"><a class="detailUrl clicked" href=' + item.bidNtceDtlUrl + ' target=\'_blank\'>' + item.bidNtceNm + '</a></h3>';
+			} else {
+				html += '<h3 class="title"><a class="detailUrl" href=' + item.bidNtceDtlUrl + ' target=\'_blank\'>' + item.bidNtceNm + '</a></h3>';
+			}
 			html += '</div>';
 			html += '<div class="infoArea">';
 			html += '<ul>';
@@ -189,29 +206,6 @@ function makeTable(itemList) {
 }
 
 /*
- * search option에 따른 view의 tbody(id='itemList') 생성
- * @param {Array} itemList ... data array
- * @param {String} type ... ASC or DESC
- * @param {String} org ... 기관명
- */
-function makeTableByOptions(itemList, type, org){
-	if (org != '전체선택') {
-		tempItemList = filterSuchdminsttNm(org);
-	} else {
-		tempItemList = itemList;
-	}
-	
-	if (type == 'DESC') {
-		tempItemList = tempItemList.sort(compareDESC);
-		makeTable(tempItemList);
-	} else {
-		tempItemList = tempItemList.sort(compareASC);
-		makeTable(tempItemList);
-	}
-}
-
-
-/*
  * itmeList의 데이터 정제를 위한 filter
  * object의 dminsttNm에 특정 기관명(query)이 포함되어있지 않으면 삭제
  * @param {String} query 찾으려는 기관명 
@@ -221,17 +215,5 @@ function filterSuchdminsttNm(query) {
 	return itemList.filter(function(item){
 		return item.dminsttNm.trim().indexOf(query) > -1;
 	});
-}
-
-// 오름차순 내림차순 함수
-function compareDESC(a, b) {
-	let bDate = new Date(b['bidNtceDt']).getTime();
-	let aDate = new Date(a['bidNtceDt']).getTime();
-	return bDate > aDate ? 1 : -1;
-}
-function compareASC(a, b) {	
-	let bDate = new Date(b['bidNtceDt']).getTime();
-	let aDate = new Date(a['bidNtceDt']).getTime();
-	return aDate > bDate ? 1 : -1;
 }
 

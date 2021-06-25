@@ -11,12 +11,14 @@
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/content/gonggo.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/util/tablePageUtil.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/util/localStorage.js"></script>
 </head>
 
 <body>
 <header>
 	<%@ include file="/WEB-INF/views/include/navbar.jsp" %>
 </header>
+<input id="storageKey" type="hidden" value="${storageKey }">
 <div class="container contentContainer">
 	<form class="search">
 		<div class="form-group period">
@@ -51,13 +53,14 @@
 			<select class="selector form-control" id="orgSelector">
 				<option value="전체선택" selected="selected">수요기관(전체)</option>
 			</select>
-			<select class="selector form-control" id="orderSelector">
-				<option value="DESC" selected="selected">입찰공고일시▼</option>
-				<option value="ASC">입찰공고일시▲</option>
-			</select>
-			<ul class="orderSelector">
+			<ul class="orderSelector" id="dateOrder">
 				<li class="selected" data-value="DESC" role="button">입찰공고일시 <span>최신순</span></li>
 				<li data-value="ASC" role="button">입찰공고일시 <span style="letter-spacing: -1px;">오래된순</span></li>
+			</ul>
+			<ul class="orderSelector" id="insttOrder">
+				<li class="selected" data-value="NONE" role="button">기관명 <span>사용안함</span></li>
+				<li data-value="DESC" role="button">기관명 <span>내림차순</span></li>
+				<li data-value="ASC" role="button">기관명 <span style="letter-spacing: -1px;">오름차순</span></li>
 			</ul>
 		</div>
 		<ul class="resultList gonggo" id="itemList">

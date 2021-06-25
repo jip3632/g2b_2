@@ -14,46 +14,101 @@ public class SearchDAO  {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public List<?> selectSearchTargetList() throws Exception {
-		return sqlSession.selectList("selectSearchTargetList");
-	}
-	
+	// 기관 검색
 	/**
-	 * 모든 검색어 리스트 가져오기
+	 * 사용여부 Y 기관만
 	 * @return List<?>
 	 * @throws Exception
 	 */
-	public List<?> selectAllSearchList() throws Exception {
-		return sqlSession.selectList("selectAllSearchList");
+	public List<?> selectAvailableSearchInsttList() throws Exception {
+		return sqlSession.selectList("selectAvailableSearchInsttList");
 	}
 	
 	/**
-	 * 검색어 추가
+	 * 모든 검색 기관 리스트 가져오기
+	 * @return List<?>
+	 * @throws Exception
+	 */
+	public List<?> selectAllSearchInsttList() throws Exception {
+		return sqlSession.selectList("selectAllSearchInsttList");
+	}
+	
+	/**
+	 * 검색 기관 추가
 	 * @param serachMap
 	 * @return Integer
 	 * @throws Exception
 	 */
-	public Integer insertSearchKeyword(SearchVO searchVO) throws Exception {
-		return sqlSession.insert("insertSearchKeyword", searchVO);
+	public Integer insertSearchInstt(SearchVO searchVO) throws Exception {
+		return sqlSession.insert("insertSearchInstt", searchVO);
 	}
 	
 	/**
-	 * 검색어 수정
+	 * 검색 기관 수정
 	 * @param serachMap
 	 * @return Integer
 	 * @throws Exception
 	 */
-	public Integer updateSearchKeyword(SearchVO searchVO) throws Exception {
-		return sqlSession.update("updateSearchKeyword", searchVO);
+	public Integer updateSearchInstt(SearchVO searchVO) throws Exception {
+		return sqlSession.update("updateSearchInstt", searchVO);
 	}
 	
 	/**
-	 * 검색어 삭제
+	 * 검색 기관 삭제
 	 * @param serachMap
 	 * @return Integer
 	 * @throws Exception
 	 */
-	public Integer deleteSearchKeyword(SearchVO searchVO) throws Exception {
-		return sqlSession.delete("deleteSearchKeyword", searchVO);
+	public Integer deleteSearchInstt(SearchVO searchVO) throws Exception {
+		return sqlSession.delete("deleteSearchInstt", searchVO);
+	}
+	
+	// 업체 검색
+	/**
+	 * 사용여부 Y 업체만 가져오기
+	 * @return List<?>
+	 * @throws Exception
+	 */
+	public List<?> selectAvailableSearchCompanyList() throws Exception {
+		return sqlSession.selectList("selectAvailableSearchCompanyList");
+	}
+	
+	/**
+	 * 모든 업체 리스트 가져오기
+	 * @return List<?>
+	 * @throws Exception
+	 */
+	public List<?> selectAllSearchCompanyList() throws Exception {
+		return sqlSession.selectList("selectAllSearchCompanyList");
+	}
+	
+	/**
+	 * 업체 추가
+	 * @param serachMap
+	 * @return Integer
+	 * @throws Exception
+	 */
+	public Integer insertSearchCompany(SearchVO searchVO) throws Exception {
+		return sqlSession.insert("insertSearchCompany", searchVO);
+	}
+	
+	/**
+	 * 업체 수정
+	 * @param serachMap
+	 * @return Integer
+	 * @throws Exception
+	 */
+	public Integer updateSearchCompany(SearchVO searchVO) throws Exception {
+		return sqlSession.update("updateSearchCompany", searchVO);
+	}
+	
+	/**
+	 * 업체삭제
+	 * @param serachMap
+	 * @return Integer
+	 * @throws Exception
+	 */
+	public Integer deleteSearchCompany(SearchVO searchVO) throws Exception {
+		return sqlSession.delete("deleteSearchCompany", searchVO);
 	}
 }

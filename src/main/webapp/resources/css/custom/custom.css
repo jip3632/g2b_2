@@ -896,3 +896,7 @@ searchMng
 		margin: 0 0 0 10px;
 	}
 }
+
+/* 한번 선택한 로우 */
+h3.title.clicked {color : #FF0000 !important;}
+a.detailUrl.clicked {color : #FF0000 !important;}

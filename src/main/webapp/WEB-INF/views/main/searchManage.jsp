@@ -1,42 +1,45 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>검색어 관리</title>
 	<%@ include file="/WEB-INF/views/include/script.jsp" %>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/content/searchMng.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/content/searchManage.js"></script>
 </head>
 <body>
 <header>
 	<%@ include file="/WEB-INF/views/include/navbar.jsp" %>
 </header>
+<input id="queryType" type="hidden" value="${queryType}"/> 
 <div class="container contentContainer searchMng">
-	<!-- <div class="filterAndSort">
-		<select class="selector form-control" id="orgSelector">
-			<option value="전체선택" selected="selected">수요기관(전체)</option>
-		</select>
-		<select class="selector form-control" id="orderSelector">
-			<option value="DESC" selected="selected">사전규격공개일시▼</option>
-			<option value="ASC">사전규격공개일시▲</option>
-		</select>
-		<ul class="orderSelector">
-			<li class="selected" data-value="DESC" role="button">사전규격 공개일시 <span>최신순</span></li>
-			<li data-value="ASC" role="button">사전규격 공개일시 <span style="letter-spacing: -1px;">오래된순</span></li>
-		</ul>
-	</div> -->
 	<table id="searchList">
 		<colgroup>
-			<col width="*">
-			<col width="*">
-			<col width="*">
+			<c:choose>
+				<c:when test="${queryType eq 'inst'}">
+					<col width="*">
+					<col width="*">
+					<col width="*">
+				</c:when>
+				<c:when test="${queryType eq 'company'}">
+					<col width="*">
+					<col width="*">
+				</c:when>
+			</c:choose>
 			<col width="120px">
 		</colgroup>
 		<thead>
 			<tr>
-				<th>기관명</th>
-				<th>상위기관</th>
+				<c:choose>
+					<c:when test="${queryType eq 'inst'}">
+						<th>기관명</th>
+						<th>상위기관</th>
+					</c:when>
+					<c:when test="${queryType eq 'company'}">
+						<th>업체명</th>
+					</c:when>
+				</c:choose>
 				<th>사용여부</th>
 				<th></th>
 			</tr>
@@ -62,14 +65,24 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div>
-					<label for="instNm">기관명</label>
-					<input type="text" id="instNm"/>
-				</div>
-				<div>
-					<label for="toplvInstNm">상위기관명</label>
-					<input type="text" id="toplvInstNm"/>
-				</div>
+				<c:choose>
+					<c:when test="${queryType eq 'inst'}">
+						<div>
+							<label for="instNm">기관명</label>
+							<input type="text" id="instNm"/>
+						</div>
+						<div>
+							<label for="toplvInstNm">상위기관명</label>
+							<input type="text" id="toplvInstNm"/>
+						</div>
+					</c:when>
+					<c:when test="${queryType eq 'company'}">
+						<div>
+							<label for="companyNm">업체명</label>
+							<input type="text" id="companyNm"/>
+						</div>
+					</c:when>
+				</c:choose>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal" id="addKeyword">추가</button>

@@ -7,26 +7,29 @@
 		<result property="instNm" column="INST_NM" />
 		<result property="toplvInstNm" column="TOPLV_INST_NM" />
 		<result property="useAt" column="USE_AT" />
+		
+		<result property="companyNm" column="COMPANY_NM" />
 	</resultMap>
 
-	<select id="selectSearchTargetList" resultMap="searchVO">
+	<!-- 기관 검색어 관리 -->
+	<select id="selectAvailableSearchInsttList" resultMap="searchVO">
 		SELECT
 			*
 		FROM
-			SRCH_SEL_TEMP
+			SRCH_INSTT
 		WHERE
 			USE_AT = 'Y'
 	</select>
 	
-	<select id="selectAllSearchList" resultMap="searchVO">
+	<select id="selectAllSearchInsttList" resultMap="searchVO">
 		SELECT
 			*
 		FROM
-			SRCH_SEL_TEMP
+			SRCH_INSTT
 	</select>
 	
-	<insert id="insertSearchKeyword" parameterType="com.billion21.search.service.SearchVO">
-		INSERT INTO SRCH_SEL_TEMP(
+	<insert id="insertSearchInstt" parameterType="com.billion21.search.service.SearchVO">
+		INSERT INTO SRCH_INSTT(
 			INST_NM
 			,TOPLV_INST_NM
 			,USE_AT
@@ -34,12 +37,12 @@
 			#{instNm}
 			,#{toplvInstNm}
 			,#{useAt}
-		);
+		)
 	</insert>
 	
-	<update id="updateSearchKeyword" parameterType="com.billion21.search.service.SearchVO" >
+	<update id="updateSearchInstt" parameterType="com.billion21.search.service.SearchVO" >
 		UPDATE
-			SRCH_SEL_TEMP
+			SRCH_INSTT
 		SET
 			USE_AT = #{useAt}
 			,INST_NM = #{instNm}
@@ -48,11 +51,56 @@
 			SN = #{sn}
 	</update>
 	
-	<delete id="deleteSearchKeyword" parameterType="com.billion21.search.service.SearchVO">
+	<delete id="deleteSearchInstt" parameterType="com.billion21.search.service.SearchVO">
 		DELETE FROM
-			SRCH_SEL_TEMP
+			SRCH_INSTT
 		WHERE
 			SN = #{sn}
 	</delete>
+	
+	<!-- 업체 검색어 관리 -->
+	<select id="selectAvailableSearchCompanyList" resultMap="searchVO">
+		SELECT
+			*
+		FROM
+			SRCH_COMPANY
+		WHERE
+			USE_AT = 'Y'
+	</select>
+	
+	<select id="selectAllSearchCompanyList" resultMap="searchVO">
+		SELECT
+			*
+		FROM
+			SRCH_COMPANY
+	</select>
+	
+	<insert id="insertSearchCompany" parameterType="com.billion21.search.service.SearchVO">
+		INSERT INTO SRCH_COMPANY(
+			COMPANY_NM
+			,USE_AT
+		) VALUES (
+			#{companyNm}
+			,#{useAt}
+		)
+	</insert>
+	
+	<update id="updateSearchCompany" parameterType="com.billion21.search.service.SearchVO" >
+		UPDATE
+			SRCH_COMPANY
+		SET
+			USE_AT = #{useAt}
+			,COMPANY_NM = #{companyNm}
+		WHERE
+			SN = #{sn}
+	</update>
+	
+	<delete id="deleteSearchCompany" parameterType="com.billion21.search.service.SearchVO">
+		DELETE FROM
+			SRCH_COMPANY
+		WHERE
+			SN = #{sn}
+	</delete>
+	
 	
 </mapper>

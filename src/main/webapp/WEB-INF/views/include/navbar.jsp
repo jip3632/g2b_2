@@ -14,7 +14,8 @@
 	    	<a class="nav-item nav-link gonggo" href="${pageContext.request.contextPath }/gonggo">입찰 공고</a>
 	    	<a class="nav-item nav-link contract" href="${pageContext.request.contextPath }/contract">계약 정보</a>
 	    	<a class="nav-item nav-link openBids" href="${pageContext.request.contextPath }/openBids">개찰 정보</a>
-	    	<a class="nav-item nav-link searchManage" href="${pageContext.request.contextPath }/searchManage">검색 관리</a>
+	    	<a class="nav-item nav-link inst" href="${pageContext.request.contextPath }/searchManage/inst">검색 기관</a>
+	    	<a class="nav-item nav-link company" href="${pageContext.request.contextPath }/searchManage/company">검색 업체</a>
 		</div>
 	</div>
 </nav>

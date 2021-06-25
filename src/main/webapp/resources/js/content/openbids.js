@@ -19,8 +19,8 @@ var len = 0;
 
 $(document).ready(function(){							// 페이지 최초 로딩시 초기화
 	// make org selector
-	valid_dminsttNm = getAllKeywordList().sort();
-	qry_dminsttNms = getAllKeywordList();
+	valid_dminsttNm = KeywordAjax.getAvailableSearchList('inst', 'string').sort();
+	qry_dminsttNms = KeywordAjax.getAvailableSearchList('inst', 'string');
 	let orgSelctor = $('#orgSelector');
 	for (let org of valid_dminsttNm) {
 		let html = '<option value="' + org +'">' + org + '</option>'
@@ -35,21 +35,33 @@ $(document).ready(function(){							// 페이지 최초 로딩시 초기화
 	
 });
 
-$(document).on('change', '.selector', function(e){		// selector 변경시 테이블 변경 listener
-	let type = $('#orderSelector').val();
-	let org = $('#orgSelector').val();
-	
-	makeTableByOptions(itemList, type, org);
-});
-
-$(document).on('click', '.orderSelector li', function(e){	// orderSelector 클릭 listener
-	$('.orderSelector li').toggleClass('selected');
-	$('#orderSelector').val($('.orderSelector .selected').attr('data-value')).trigger('change');
-});
-
 $(document).on('click', '#search', function() {			// 조회 버튼 클릭시 테이블 변경 listener
 	getData();
 });
+
+$(document).on('change', '.selector', function(e){		// selector 변경 listener
+	makeSortedTable();
+});
+
+/*
+ * sort data list
+ */ 
+function makeSortedTable() {
+	let type1 = $('#dateOrder .selected').data('value');
+	let type2 = $('#insttOrder .selected').data('value');
+	let org = $('#orgSelector').val();
+
+	if (org != '전체선택') {
+		tempItemList = filterSuchdminsttNm(org);
+	} else {
+		tempItemList = itemList;
+	}
+	
+	//console.log(type2 + ' || ' + type1);
+	tempItemList = tempItemList.sort(compareMethodObj.OPENBIDS[type2][type1]);
+	
+	makeTable(tempItemList);
+}
 
 /*
  * itemList와 table 초기화 한뒤 startDate, endDate를 설정하고 doAjaxRequest(startDate, endDate)하는 함수
@@ -113,9 +125,7 @@ function doAjaxRequest(startDate, endDate, bidType, dateType) {
 			
 			$.when.apply($, ajaxArr)
 			.done(function(){		// complete function
-				let type = $('#orderSelector').val();
-				let org = $('#orgSelector').val();
-				makeTableByOptions(itemList, type, org);
+				makeSortedTable();
 				
 				//e = new Date().getTime();
 				//console.log("time : " + (e - s));
@@ -141,10 +151,7 @@ function doAjaxRequest(startDate, endDate, bidType, dateType) {
 			alert('api 서비스 내부오류.. 잠시후 다시 시도해 주시거나\n조회기준을 등록일로 검색하세요');
 		})
 		.done(function(){			// complete function
-			let type = $('#orderSelector').val();
-			let org = $('#orgSelector').val();
-
-			makeTableByOptions(itemList, type, org);
+			makeSortedTable();
 			
 			//e = new Date().getTime();
 			//console.log("time : " + (e - s));
@@ -262,11 +269,10 @@ function makeTable(itemList) {
 	let table = $("#itemList"); 
 	table.empty();
 	let html = '';
+	var key = $('#storageKey').val();
 	
 	if (itemList.length != 0) {
-		
-		
-		
+
 		for(let item of itemList){
 			let openCorpInfo = [];
 			
@@ -276,9 +282,13 @@ function makeTable(itemList) {
 			
 			html += '<li>';
 			html += '<div class="titleArea">';
-			html += '<label>입찰공고번호</label><span class="no">' + item.bidNtceNo + "-" + item.bidNtceOrd + '</span>';
-			html += '<label>재입찰번호</label><span class="rbidNo">' + item.rbidNo + '</span>';
-			html += '<h3 class="title">' + item.bidNtceNm + '</h3>';
+			html += '<label>입찰공고번호</label><span class="no">' + item.bidNtceNo + '-' + item.bidNtceOrd + '</span>';
+			html += '<label>재입찰번호</label><span class="no">' + item.rbidNo + '</span>';
+			if (LocalStorageUtil.isIncluded(key, (item.bidNtceNo + '-' + item.bidNtceOrd).concat(item.rbidNo))) {
+				html += '<h3 class="title clicked">' + item.bidNtceNm + '</h3>';
+			} else {
+				html += '<h3 class="title">' + item.bidNtceNm + '</h3>';
+			}
 			html += '</div>';
 			html += '<div class="infoArea">';
 			html += '<ul>';
@@ -356,28 +366,6 @@ function openResultBid(bidNtceNo, type) {
 }
 
 /*
- * search option에 따른 view의 tbody(id='itemList') 생성
- * @param {Array} itemList data array
- * @param {String} type 오름차순 내림차순
- * @param {String} org 기관명
- */
-function makeTableByOptions(itemList, type, org){
-	if (org != '전체선택') {
-		tempItemList = filterSuchdminsttNm(org);
-	} else {
-		tempItemList = itemList;
-	}
-	
-	if (type == 'DESC') {
-		tempItemList = tempItemList.sort(compareDESC);
-		makeTable(tempItemList);
-	} else {
-		tempItemList = tempItemList.sort(compareASC);
-		makeTable(tempItemList);
-	}
-}
-
-/*
  * 상세정보 페이지로 연결할 url 생성
  * @param {Array} itemList data array
  * @param {String} bfSpecRgstNo 
@@ -427,6 +415,53 @@ function compareASC(a, b) {		// sort function
 	let bDate = new Date(b['opengDt']).getTime();
 	let aDate = new Date(a['opengDt']).getTime();
 	return aDate > bDate ? 1 : -1;
+}
+
+var compareFunctionObj = {
+	NONE : {
+		DESC : compareDESC
+		,ASC : compareASC
+	}
+	,DESC : {
+		DESC : function (a, b) {
+			if (a['dminsttNm'] < b['dminsttNm']) {
+				return 1;
+			} else if (a['dminsttNm'] > b['dminsttNm']) {
+				return -1;
+			} else {
+				return compareDESC(a, b);
+			}
+		},
+		ASC : function (a, b) {
+			if (a['dminsttNm'] < b['dminsttNm']) {
+				return 1;
+			} else if (a['dminsttNm'] > b['dminsttNm']) {
+				return -1;
+			} else {
+				return compareASC(a, b);
+			}
+		}
+	}
+	,ASC : {
+		DESC : function (a, b) {
+			if (a['dminsttNm'] > b['dminsttNm']) {
+				return 1;
+			} else if (a['dminsttNm'] < b['dminsttNm']) {
+				return -1;
+			} else {
+				return compareDESC(a, b);
+			}
+		},
+		ASC : function (a, b) {
+			if (a['dminsttNm'] > b['dminsttNm']) {
+				return 1;
+			} else if (a['dminsttNm'] < b['dminsttNm']) {
+				return -1;
+			} else {
+				return compareASC(a, b);
+			}
+		}
+	}
 }
 
 

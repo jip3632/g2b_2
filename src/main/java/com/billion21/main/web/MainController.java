@@ -26,40 +26,58 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String viewDefault(HttpSession session) {
-		return "main/sajhen";
+	public ModelAndView viewDefault(HttpSession session) {
+		ModelAndView mv = new ModelAndView("redirect:sajhen");
+		return mv;
 	}
 	 
 	@RequestMapping(value = "/sajhen", method = RequestMethod.GET)
-	public String viewSajhen(HttpSession session) {
-		return "main/sajhen";
+	public ModelAndView viewSajhen(HttpSession session) {
+		ModelAndView mv = new ModelAndView("main/sajhen");
+		mv.addObject("storageKey", "sajhen");
+		return mv;
 	}
 	
 	@RequestMapping(value = "/gonggo", method = RequestMethod.GET)
-	public String viewGoonggo(HttpSession session) {
-		return "main/gonggo";
+	public ModelAndView viewGoonggo(HttpSession session) {
+		ModelAndView mv = new ModelAndView("main/gonggo");
+		mv.addObject("storageKey", "gonggo");
+		return mv;
 	}
 	
 	@RequestMapping(value = "/contract", method = RequestMethod.GET)
-	public String viewContract(HttpSession session) {
-		return "main/contract";
+	public ModelAndView viewContract(HttpSession session) {
+		ModelAndView mv = new ModelAndView("main/contract");
+		mv.addObject("storageKey", "contract");
+		return mv;
 	}
 	
 	@RequestMapping(value = "/openBids", method = RequestMethod.GET)
-	public String viewOpenBids(HttpSession session) {
-		return "main/openBids";
+	public ModelAndView viewOpenBids(HttpSession session) {
+		ModelAndView mv = new ModelAndView("main/openBids");
+		mv.addObject("storageKey", "openBids");
+		return mv;
 	}
 	
 	@RequestMapping(value = "/detail/opengDtl/{bidNtceNo}/{bidType}")
-	public String viewOpengDtl(@PathVariable("bidNtceNo") String bidNtceNo, @PathVariable("bidType") String bidType, Model model) {
-		model.addAttribute("bidNtceNo", bidNtceNo);
-		model.addAttribute("bidType", bidType);
-		return "main/detail/opengDtl";
+	public ModelAndView viewOpengDtl(@PathVariable("bidNtceNo") String bidNtceNo, @PathVariable("bidType") String bidType, Model model) {
+		ModelAndView mv = new ModelAndView("main/detail/opengDtl");
+		mv.addObject("bidNtceNo", bidNtceNo);
+		mv.addObject("bidType", bidType);
+		return mv;
 	}
 	
-	@RequestMapping(value = "/searchManage", method = RequestMethod.GET)
-	public ModelAndView viewSearchManage(@RequestParam Map<?, ?> requestMap) {
-		ModelAndView mv = new ModelAndView("main/searchMng");
+	@RequestMapping(value = "/searchManage/inst", method = RequestMethod.GET)
+	public ModelAndView viewSrchInsttManage(@RequestParam Map<?, ?> requestMap) {
+		ModelAndView mv = new ModelAndView("main/searchManage");
+		mv.addObject("queryType", "inst");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/searchManage/company", method = RequestMethod.GET)
+	public ModelAndView viewSrchCompanyManage(@RequestParam Map<?, ?> requestMap) {
+		ModelAndView mv = new ModelAndView("main/searchManage");
+		mv.addObject("queryType", "company");
 		return mv;
 	}
 	
@@ -109,6 +127,8 @@ public class MainController {
 			}
 			requestUrl.append(value);
 		}
+		
+		System.out.println("requestUrl : " + requestUrl);
 		
 		// get json data
 		URL url = new URL(requestUrl.toString());

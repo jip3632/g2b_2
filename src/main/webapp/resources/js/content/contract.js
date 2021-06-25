@@ -11,6 +11,9 @@ var valid_cntrctInsttNms = [];
 // data를 가져올 수요기관 배열 (selector 배열에 자신의 상위기관이 포함된경우 qry보내지 않음)
 var qry_dminsttNms = [];
 
+// 업체 리스트
+var corpList = [];
+
 const NUM_OF_ROWS = 999;
 var totDataCnt;
 var len = 0;
@@ -18,12 +21,20 @@ var len = 0;
 
 $(document).ready(function(){						// 페이지 최초 로딩시 초기화
 	// make org selector
-	valid_cntrctInsttNms = getAllKeywordList().sort();
-	qry_dminsttNms = getAllKeywordList();
+	valid_cntrctInsttNms = KeywordAjax.getAvailableSearchList('inst', 'string').sort();
+	qry_dminsttNms = KeywordAjax.getAvailableSearchList('inst', 'string');
 	let orgSelctor = $('#orgSelector');
 	for (let org of valid_cntrctInsttNms) {
 		let html = '<option value="' + org +'">' + org + '</option>'
 		orgSelctor.append(html);
+	}
+	
+	// make companySelector
+	corpList = KeywordAjax.getAvailableSearchList('company', 'string').sort();
+	let companySelctor = $('#companySelector');
+	for (let company of corpList) {
+		let html = '<option value="' + company +'">' + company + '</option>'
+		companySelctor.append(html);
 	}
 	
 	// set default date
@@ -34,21 +45,38 @@ $(document).ready(function(){						// 페이지 최초 로딩시 초기화
 	
 });
 
-$(document).on('change', '.selector', function(e){	// selector 변경 listener
-	let type = $('#orderSelector').val();
-	let org = $('#orgSelector').val();
-	
-	makeTableByOptions(itemList, type, org);
-});
-
-$(document).on('click', '.orderSelector li', function(e){	// orderSelector 클릭 listener
-	$('.orderSelector li').toggleClass('selected');
-	$('#orderSelector').val($('.orderSelector .selected').attr('data-value')).trigger('change');
-});
-
 $(document).on('click', '#search', function() {		// 조회 버튼 클릭 listener
 	getData();
 });
+
+$(document).on('change', '.selector', function(e){		// selector 변경 listener
+	makeSortedTable();
+});
+
+/*
+ * sort data list
+ */ 
+function makeSortedTable() {
+	let type1 = $('#dateOrder .selected').data('value');
+	let type2 = $('#insttOrder .selected').data('value');
+	let org = $('#orgSelector').val();
+	let company = $('#companySelector').val();
+
+	if (org != '전체선택') {
+		tempItemList = filterSuchCntrctInsttNm(org);
+	} else {
+		tempItemList = itemList;
+	}
+	
+	if (company != 'NONUSE') {
+		tempItemList = filterSuchCompanyNm(company);
+	}
+	
+	//console.log(type2 + ' || ' + type1);
+	tempItemList = tempItemList.sort(compareMethodObj.CONTRACT[type2][type1]);
+	
+	makeTable(tempItemList);
+}
 
 /*
  * itemList와 table 초기화 한뒤 startDate, endDate를 설정하고 doAjaxRequest(startDate, endDate)하는 함수
@@ -106,10 +134,7 @@ function doAjaxRequest(startDate, endDate, bidType, dateType) {
 			
 			$.when.apply($, ajaxArr)
 			.done(function(){
-				// complete
-				let type = $('#orderSelector').val();
-				let org = $('#orgSelector').val();
-				makeTableByOptions(itemList, type, org);
+				makeSortedTable();
 				
 				//e = new Date().getTime();
 				//console.log("time : " + (e - s));
@@ -134,9 +159,7 @@ function doAjaxRequest(startDate, endDate, bidType, dateType) {
 			alert('api 서비스 내부오류.. 잠시후 다시 시도해 주시거나\n조회기준을 등록일로 검색하세요');
 		})
 		.done(function(){				// complete function
-			let type = $('#orderSelector').val();
-			let org = $('#orgSelector').val();
-			makeTableByOptions(itemList, type, org);
+			makeSortedTable();
 			
 			//e = new Date().getTime();
 			//console.log("time : " + (e - s));
@@ -257,12 +280,17 @@ function makeTable(itemList) {
 	let table = $("#itemList");
 	table.empty();
 	let html = '';
+	var key = $('#storageKey').val();
 	if (itemList.length != 0) {
 		for(let item of itemList){
 			html += '<li>';
 			html += '<div class="titleArea">';
 			html += '<label>통합계약번호</label><span class="no">' + item.untyCntrctNo + '</span>';
-			html += '<h3 class="title"><a class="detailUrl" href=' + item.cntrctDtlInfoUrl + ' target=\'_blank\'>' + item.cntrctNm + '</a></h3>';
+			if (LocalStorageUtil.isIncluded(key, item.untyCntrctNo)) {
+				html += '<h3 class="title"><a class="detailUrl clicked" href=' + item.cntrctDtlInfoUrl + ' target=\'_blank\'>' + item.cntrctNm + '</a></h3>';
+			} else {
+				html += '<h3 class="title"><a class="detailUrl" href=' + item.cntrctDtlInfoUrl + ' target=\'_blank\'>' + item.cntrctNm + '</a></h3>';
+			}
 			html += '</div>';
 			html += '<div class="infoArea">';
 			html += '<ul>';
@@ -279,28 +307,6 @@ function makeTable(itemList) {
 	table.html(html);
 	
 	$('#loadingBox').hide();
-}
-
-/*
- * search option에 따른 view의 tbody(id='itemList') 생성
- * @param {Array} itemList data array
- * @param {String} type 오름차순 내림차순
- * @param {String} org 기관명
- */
-function makeTableByOptions(itemList, type, org){
-	if (org != '전체선택') {
-		tempItemList = filterSuchcntrctInsttNm(org);
-	} else {
-		tempItemList = itemList;
-	}
-	
-	if (type == 'DESC') {
-		tempItemList = tempItemList.sort(compareDESC);
-		makeTable(tempItemList);
-	} else {
-		tempItemList = tempItemList.sort(compareASC);
-		makeTable(tempItemList);
-	}
 }
 
 /*
@@ -327,22 +333,23 @@ function filterBy_cntrctInsttNm(item) {
  * @param {String} query 찾으려는 기관명 
  * @return {int} 0보다 작으면 삭제
  */
-function filterSuchcntrctInsttNm(query) {
+function filterSuchCntrctInsttNm(query) {
 	return itemList.filter(function(item){
 		return item.cntrctInsttNm.trim().indexOf(query) > -1;
 	});
 }
 
+/*
+ * itmeList의 데이터 정제를 위한 filter
+ * object의 corpList에 특정 업체명(query)이 포함되어있지 않으면 삭제
+ * @param {String} query 찾으려는 기관명 
+ * @return {int} 0보다 작으면 삭제
+ */
 
-function compareDESC(a, b) {	// sort function
-	let bDate = new Date(b['cntrctCnclsDate']).getTime();
-	let aDate = new Date(a['cntrctCnclsDate']).getTime();
-	return bDate > aDate ? 1 : -1;
-}
-function compareASC(a, b) {		// sort function
-	let bDate = new Date(b['cntrctCnclsDate']).getTime();
-	let aDate = new Date(a['cntrctCnclsDate']).getTime();
-	return aDate > bDate ? 1 : -1;
+function filterSuchCompanyNm(query) {
+	return tempItemList.filter(function(item){
+		return item.corpList.trim().indexOf(query) > -1;
+	});
 }
 
 function numberWithCommas(x) {	// number format
