@@ -6,16 +6,15 @@
 document.addEventListener('DOMContentLoaded', function(){
 	let storage = window.localStorage;
 	storage.lastTimeMill = Date.now();
-	console.log(storage);
+	//console.log(storage);
 	
 	if (!storage.firstUpdateDate) {
 		storage.initialize();
 	} else {
-		let today = new Date();
+		let today = new Date('');
 		let firstUpdateDate = new Date(storage.firstUpdateDate);
-		if (today.getDate() != firstUpdateDate.getDate()
-				|| today.getMonth() != firstUpdateDate.getMonth()
-				|| today.getFullYear() != firstUpdateDate.getFullYear()) {
+		//console.log(Math.round(Math.abs(today.getTime() - firstUpdateDate.getTime())/ (1000 * 60 * 60 * 24)));
+		if (Math.round(Math.abs(today.getTime() - firstUpdateDate.getTime())/ (1000 * 60 * 60 * 24)) > 7) {
 			storage.initialize();
 		}
 	}

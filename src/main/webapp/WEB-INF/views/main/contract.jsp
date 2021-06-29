@@ -55,16 +55,27 @@
 				<li>등록일</li>
 			</ul>
 		</div>
+		<div class="form-group radio">
+			<label for="searchTypeSelector">검색기준</label>
+			<select class="form-control" id="searchTypeSelector">
+				<option value="org" selected="selected">수요기관</option>
+				<option value="company">계약업체</option>
+			</select>
+			<ul>
+				<li data-value="org">수요기관</li>
+				<li data-value="company">계약업체</li>
+			</ul>
+		</div>
 		<button type="button" class="btn btn-primary" id="search">조회하기</button>
 	</form>
 	
 	<div class="content">
 		<div class="filterAndSort">
 			<select class="selector form-control" id="orgSelector">
-				<option value="전체선택" selected="selected">수요기관(전체)</option>
+				<option value="ALL" selected="selected">수요기관(전체)</option>
 			</select>
 			<select class="selector form-control" id="companySelector">
-				<option value="NONUSE" selected="selected">계약업체(사용안함)</option>
+				<option value="ALL" selected="selected">계약업체(전체)</option>
 			</select>
 			<ul class="orderSelector" id="dateOrder">
 				<li class="selected" data-value="DESC" role="button">계약일자 <span>최신순</span></li>

@@ -13,6 +13,7 @@ var qry_dminsttNms = [];
 
 // 업체 리스트
 var corpList = [];
+var valid_corpList = [];
 
 const NUM_OF_ROWS = 999;
 var totDataCnt;
@@ -31,6 +32,7 @@ $(document).ready(function(){						// 페이지 최초 로딩시 초기화
 	
 	// make companySelector
 	corpList = KeywordAjax.getAvailableSearchList('company', 'string').sort();
+	valid_corpList = KeywordAjax.getAvailableSearchList('company', 'string').sort();
 	let companySelctor = $('#companySelector');
 	for (let company of corpList) {
 		let html = '<option value="' + company +'">' + company + '</option>'
@@ -43,6 +45,20 @@ $(document).ready(function(){						// 페이지 최초 로딩시 초기화
 	date.setDate(date.getDate() - 6);
 	$('#startDate').val(date.toISOString().slice(0, 10));
 	
+	// searcht Type change event
+	$('#companySelector').hide();
+	$('#searchTypeSelector').siblings('ul').find('li').click(function(){
+		let type = $(this).data('value');
+		if (type == 'company') {
+			if ($('#dateTypeSelector').val()) {
+				alert('계약업체 기준 검색은 등록일로 검색만 가능');
+				$(this).parent().find('li:eq(0)').click();
+				return false;
+			}
+		}
+		$('.filterAndSort .selector').hide();
+		$('#' + type + 'Selector').show();
+	});
 });
 
 $(document).on('click', '#search', function() {		// 조회 버튼 클릭 listener
@@ -61,15 +77,20 @@ function makeSortedTable() {
 	let type2 = $('#insttOrder .selected').data('value');
 	let org = $('#orgSelector').val();
 	let company = $('#companySelector').val();
+	let searchType = $('#searchTypeSelector').val();
 
-	if (org != '전체선택') {
-		tempItemList = filterSuchCntrctInsttNm(org);
-	} else {
-		tempItemList = itemList;
-	}
-	
-	if (company != 'NONUSE') {
-		tempItemList = filterSuchCompanyNm(company);
+	if (searchType == 'org') {
+		if (org != 'ALL') {
+			tempItemList = filterSuchCntrctInsttNm(org);
+		} else {
+			tempItemList = itemList;
+		}
+	} else if (searchType == 'company') {
+		if (company != 'ALL') {
+			tempItemList = filterSuchCompanyNm(company);
+		} else {
+			tempItemList = itemList;
+		}
 	}
 	
 	//console.log(type2 + ' || ' + type1);
@@ -87,6 +108,7 @@ function getData() {
 	let startDate = $("#startDate").val(); 
 	let endDate = $("#endDate").val();
 	let dateType = $('#dateTypeSelector').val();
+	let searchType = $('#searchTypeSelector').val();
 	
 	if (!dateType) dateType = '';
 	startDate = startDate.replace(/\-/g, "");
@@ -104,7 +126,7 @@ function getData() {
 	$('#loadingBox').show();	
 	$("#itemList").empty();
 	
-	doAjaxRequest(startDate, endDate, bidType, dateType);
+	doAjaxRequest(startDate, endDate, bidType, dateType, searchType);
 }
 
 /*
@@ -114,13 +136,12 @@ function getData() {
  * @param {String} bidType 용역구분
  * @param {String} dateType 기간구분
  */ 
-function doAjaxRequest(startDate, endDate, bidType, dateType) {
+function doAjaxRequest(startDate, endDate, bidType, dateType, searchType) {
 	
 	// for timechk
 	//var s;
 	//var e;
 	// s = new Date().getTime();
-	
 	if (!dateType) {
 
 		$.when(ajaxGetTotDataCnt(startDate, endDate, bidType, dateType))
@@ -129,7 +150,7 @@ function doAjaxRequest(startDate, endDate, bidType, dateType) {
 		}).done(function(){				// complete function
 			let ajaxArr = [];
 			for (let i = 0; i < totDataCnt / 100; i++) {
-				ajaxArr.push(getAjaxReq(startDate, endDate, bidType, i + 1));
+				ajaxArr.push(getAjaxReq(startDate, endDate, bidType, searchType, i + 1));
 			}
 			
 			$.when.apply($, ajaxArr)
@@ -155,8 +176,8 @@ function doAjaxRequest(startDate, endDate, bidType, dateType) {
 						itemList = itemList.concat(data.response.body.items);
 					}
 				}
-		}, function(){					// fail function
-			alert('api 서비스 내부오류.. 잠시후 다시 시도해 주시거나\n조회기준을 등록일로 검색하세요');
+			}, function(){					// fail function
+				alert('api 서비스 내부오류.. 잠시후 다시 시도해 주시거나\n조회기준을 등록일로 검색하세요');
 		})
 		.done(function(){				// complete function
 			makeSortedTable();
@@ -175,7 +196,7 @@ function doAjaxRequest(startDate, endDate, bidType, dateType) {
  * @param {int} i 페이지넘버
  * @return $.ajax (for promise)
  */ 
-function getAjaxReq(startDate, endDate, bidType, i) {
+function getAjaxReq(startDate, endDate, bidType, searchType, i) {
 	// set data
 	var reqData = {
 		getUrl : 'http://apis.data.go.kr/1230000/CntrctInfoService/getCntrctInfoList' + bidType,
@@ -195,7 +216,17 @@ function getAjaxReq(startDate, endDate, bidType, i) {
 		dataType : 'json',
 		success : function(data) {
 			if (data.response.header.resultCode == '00') {
-				itemList = itemList.concat(data.response.body.items.filter(filterBy_cntrctInsttNm));
+				switch (searchType) {
+				case 'org':
+					itemList = itemList.concat(data.response.body.items.filter(filterBy_cntrctInsttNm));
+					break;
+				case 'company':
+					itemList = itemList.concat(data.response.body.items.filter(filterBy_corpList));
+					break;
+				default:
+					break;
+				}
+				
 
 				len += data.response.body.items.length;
 				$("#progressInfo").html('(' + len + ' / ' + totDataCnt + ')');
@@ -341,13 +372,30 @@ function filterSuchCntrctInsttNm(query) {
 
 /*
  * itmeList의 데이터 정제를 위한 filter
+ * 등록일 기준일때 사용
+ * object의 corpList에 valid_corpList의 문자열이 포함되어있지 않으면 삭제
+ * @param {Object} item elements of itmeList 
+ * @return {boolean} true면 남김, false면 삭제 
+ */
+function filterBy_corpList(item) {
+	var target = item.corpList;
+	var result;
+	for (var val of valid_corpList) {
+		if (target.trim().indexOf(val) > -1) {
+			return true; 
+		}
+	}
+	return false;
+}
+
+/*
+ * itmeList의 데이터 정제를 위한 filter
  * object의 corpList에 특정 업체명(query)이 포함되어있지 않으면 삭제
  * @param {String} query 찾으려는 기관명 
  * @return {int} 0보다 작으면 삭제
  */
-
 function filterSuchCompanyNm(query) {
-	return tempItemList.filter(function(item){
+	return itemList.filter(function(item){
 		return item.corpList.trim().indexOf(query) > -1;
 	});
 }
