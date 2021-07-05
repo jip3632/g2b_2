@@ -175,7 +175,7 @@ function getAjaxReq_dminstt(startDate, endDate, bidType, dateType, dminstt) {
 		data : {
 			//getUrl : 'http://apis.data.go.kr/1230000/ScsbidInfoService/getOpengResultListInfo' + bidType,
 			getUrl : 'http://apis.data.go.kr/1230000/ScsbidInfoService/getOpengResultListInfo'+ bidType + dateType,
-			ServiceKey : 'WuNaQTtVX5qa0mJTnEds7zu3pTB1IcHNLMW5iT2Fba3PetWOggKLDHXsq3bgCCaPPytIm%2B36areboI0JTnqvxg%3D%3D',
+			ServiceKey : 'lZs7i%2FF0hS7LFlHBQCTvUiV%2FF2lzjO%2BwlftX3tOfEp7RHQVbqxSUOEYBvlZHPo2RUt6U5GRIuUTGpqqpIU3pjA%3D%3D',
 			pageNo : '1',
 			inqryDiv : '2',
 			dminsttNm : dminstt,
@@ -210,7 +210,7 @@ function getAjaxReq(startDate, endDate, bidType, dateType, i) {
 		url : '/getAjaxData',
 		data : {
 			getUrl : 'http://apis.data.go.kr/1230000/ScsbidInfoService/getOpengResultListInfo'+ bidType + dateType,
-			ServiceKey : 'WuNaQTtVX5qa0mJTnEds7zu3pTB1IcHNLMW5iT2Fba3PetWOggKLDHXsq3bgCCaPPytIm%2B36areboI0JTnqvxg%3D%3D',
+			ServiceKey : 'lZs7i%2FF0hS7LFlHBQCTvUiV%2FF2lzjO%2BwlftX3tOfEp7RHQVbqxSUOEYBvlZHPo2RUt6U5GRIuUTGpqqpIU3pjA%3D%3D',
 			pageNo : i,
 			inqryDiv : '1',
 			numOfRows : NUM_OF_ROWS,
